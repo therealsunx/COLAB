@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import HomePage from "./components/HomePage";
 
 export default function Home() {
   const [boardURL, setBoardURL] = useState('');
@@ -19,12 +20,6 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      {boardURL ?
-        <iframe src={boardURL} height={800} className="w-full bg-[#555]"/>
-        :
-        <button className="border-2 border-[#f00] px-8 py-3 rounded-full shadow-xl bg-black hover:invert hover:shadow-[#f00]" onClick={() => getRandomBoard()}>Get random board</button>
-      }
-    </main>
+    <HomePage />
   )
 }
