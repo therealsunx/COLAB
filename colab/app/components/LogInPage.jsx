@@ -32,8 +32,9 @@ const LogInPage = ({ setNewUser, setSessionToken }) => {
                         />
                     </div>
                     <button className="self-end px-4 hover:text-secondary">Forget password ?</button>
-                    <button className={`px-6 py-4 bg-[#fff1] mt-8 font-bold ${buttons.bulb}`} onClick={() => setSessionToken('12341234')} >LogIn</button>
-                    <button className={`px-6 py-4 w-fit self-center bg-[#fff1] font-bold ${buttons.bulb}`} onClick={() => setNewUser(true)}>Create a New Account</button>                </div>
+                    <button className={`px-6 py-2 bg-[#fff1] mt-8 font-bold ${buttons.bulb}`} onClick={() => setSessionToken('12341234')} >LogIn</button>
+                    <hr/>
+                    <button className={`px-6 py-2 self-center bg-[#fff1] font-bold ${buttons.bulb}`} onClick={() => setNewUser(true)}>Create a New Account</button>                </div>
             </div>
         </div>
     )

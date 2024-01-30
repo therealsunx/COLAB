@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronsUp, EyeIcon, Search, User } from "lucide-react";
-import { projects } from "../misc/dummy";
 import { buttons, cards } from "../misc/styles";
 
 const FeedProjectCard = ({ project, onClick, className }) => {
@@ -26,7 +25,7 @@ const FeedProjectCard = ({ project, onClick, className }) => {
 
 const ProjectDetailCard = ({ project }) => {
     return (
-        <div className="flex flex-col gap-4 items-center bg-[#6666] border-2 p-8 w-1/3 rounded-2xl overflow-auto">
+        <div className="flex flex-col gap-4 items-center bg-[#6666] border-2 p-8 w-1/3 rounded-l-2xl rounded-r-md overflow-auto">
             <div className="flex w-full items-center justify-between">
                 <div className="flex gap-2">
                     <EyeIcon className={buttons.mini} />
@@ -55,7 +54,7 @@ const ProjectDetailCard = ({ project }) => {
     )
 }
 
-const Feed = () => {
+const Feed = ({ content }) => {
     const [viewed, setViewed] = useState(0);
     const [searchPrmpt, setSearchPrmpt] = useState("");
 
@@ -64,10 +63,16 @@ const Feed = () => {
         console.log("Searching for : ", searchPrmpt);
     }
 
+    const getIndex = () => {
+        if (viewed < content.length) return viewed;
+        setViewed(0);
+        return 0;
+    }
+
     return (
         <div className="flex justify-end gap-6 p-8">
 
-            <div className="flex flex-col items-center p-8 border-2 rounded-2xl">
+            <div className="flex flex-col flex-grow items-center p-8 border-2 rounded-2xl">
                 <div className="flex justify-between w-full gap-2 mb-12">
                     <div className="flex items-center gap-4">
                         <User className={buttons.icon} />
@@ -81,18 +86,18 @@ const Feed = () => {
                             placeholder="Search"
                             onChange={e => setSearchPrmpt(e.target.value)}
                             onKeyDown={startSearch}
-                            className="px-8 py-2 rounded-full text-zinc-600 outline-none"
+                            className="px-8 py-2 rounded-l-full text-zinc-600 outline-none"
                         />
-                        <Search className={buttons.icon} onClick={startSearch} />
+                        <Search className={buttons.semicon} onClick={startSearch} />
                     </div>
                 </div>
 
-                <div className="bg-[#fff3] flex flex-col gap-4 p-6 rounded-2xl overflow-y-auto">
-                    {projects.map((p, i) => <FeedProjectCard project={p} key={i} onClick={() => setViewed(i)} className={viewed === i ? cards.active : cards.projectFeed} />)}
+                <div className="bg-[#fff3] flex flex-col w-full gap-4 p-6 rounded-l-2xl overflow-y-scroll">
+                    {content.map((p, i) => <FeedProjectCard project={p} key={i} onClick={() => setViewed(i)} className={viewed === i ? cards.active : cards.projectFeed} />)}
                 </div>
             </div>
 
-            <ProjectDetailCard project={projects[viewed]} />
+            <ProjectDetailCard project={content[getIndex()]} />
         </div>
     )
 }

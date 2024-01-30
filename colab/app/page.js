@@ -6,7 +6,7 @@ import AuthPage from "./components/AuthPage";
 
 export default function Home() {
   const [boardURL, setBoardURL] = useState('');
-  const [sessionToken, setSessionToken] = useState('');
+  const [sessionToken, setSessionToken] = useState('sdfsdf3da');
 
   const getRandomBoard = async () => {
     try {
