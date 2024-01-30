@@ -3,28 +3,43 @@ import { useState } from "react";
 import Feed from "./Feed";
 import SideBar from "./SideBar";
 import { myProjects, projects } from "../misc/dummy";
+import ProjectInView from "./ProjectInView";
 
 const HomePage = ({ sessionToken, setSessionToken }) => {
     const [pageIndex, setPageIndex] = useState(0);
+    const [projectView, setProjectView] = useState(false);
+
+    const [openProj, setOpenProj] = useState(null);
 
     const getContent = () => {
-        switch (pageIndex) {
-            case 0:
-                //feed projects
-                return projects;
-            case 1:
-                // my projects
-                return myProjects;
-            default:
-                return projects;
-        }
+        if (pageIndex === 0) return projects;
+        else if (pageIndex === 1) return myProjects;
+        else return openProj;
+    }
+
+    const onOpenProject = (project) => {
+        setPageIndex(2);
+        setProjectView(true);
+        setOpenProj(project);
+    }
+
+    const updatePageIndex = (i) => {
+        setPageIndex(i);
+        if (i < 2) setProjectView(false);
     }
 
     return (
         <div className="h-screen flex justify-between">
-            <SideBar sessionToken={sessionToken} setSessionToken={setSessionToken} pageIndex={pageIndex} setPageIndex={setPageIndex} />
+            <SideBar
+                sessionToken={sessionToken}
+                setSessionToken={setSessionToken}
+                pageIndex={pageIndex}
+                updatePageIndex={updatePageIndex}
+                projectView={projectView}
+            />
             {
-                <Feed content={getContent()} />
+                projectView ? <ProjectInView project={openProj} pageIndex={pageIndex} />
+                    : <Feed content={getContent()} onOpenProject={onOpenProject} />
             }
         </div>
     )

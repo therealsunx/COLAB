@@ -1,3 +1,15 @@
+html::-webkit-scrollbar {
+  width: 0.3rem;
+  padding: 1rem 0;
+  background: #aaaa;
+  border-radius: 2rem;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 2rem;
+}
+
 html,
 body,
 svg {
@@ -93,12 +105,18 @@ svg {
 
 #menu .tool {
   position: relative;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
   pointer-events: auto;
   white-space: nowrap;
@@ -122,7 +140,8 @@ svg {
   max-width: 100%;
 }
 
-@media (hover: none), (pointer: coarse) {
+@media (hover: none),
+(pointer: coarse) {
   #menu .tool:hover {
     max-width: 40px;
   }
@@ -169,7 +188,7 @@ svg {
   pointer-events: none;
 }
 
-#menu .tool-icon > * {
+#menu .tool-icon>* {
   display: block;
   margin: auto;
 }
@@ -183,6 +202,7 @@ svg {
   display: inline-block;
   vertical-align: text-bottom;
 }
+
 #menu .tool-name.slider {
   display: inline-block;
   width: 150px;
@@ -279,10 +299,12 @@ circle.opcursor {
 }
 
 /* Internet Explorer specific CSS */
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
   #chooseColor {
     color: transparent;
   }
+
   label.tool-name[for="chooseColor"] {
     line-height: 10px;
   }

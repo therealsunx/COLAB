@@ -1,10 +1,23 @@
-import { AlignJustify, LogOut, Plus, Rows3, UserRound, X } from "lucide-react";
+import { AlignJustify, HomeIcon, LogOut, Plus, Rows3, Rows3Icon, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { buttons } from "../misc/styles";
-import { navBarItems } from "../misc/constants";
+import Home from "../page";
+import { navIcons, pages } from "../misc/constants";
 
-const SideBar = ({ sessionToken, setSessionToken, pageIndex, setPageIndex }) => {
+
+const SideBar = ({ sessionToken, setSessionToken, pageIndex, updatePageIndex, projectView }) => {
     const [expand, setExpand] = useState(false);
+
+    const NavBtn = ({ icon, title, active, onClick }) => (
+        <button
+            onClick={onClick}
+            className={`flex p-2 ${buttons.bulb} ${active && "bg-white shadow-secondary text-black"}`}
+        >
+            {icon}
+            {expand && <p className="px-12 w-max">{title}</p>}
+        </button>
+    )
+
     return (
         <div className="flex flex-col border-r-2 p-2 rounded-b-xl">
             <div className="flex gap-2 py-4 items-center">
@@ -15,16 +28,10 @@ const SideBar = ({ sessionToken, setSessionToken, pageIndex, setPageIndex }) => 
             </div>
 
             <div className="flex flex-col flex-grow justify-between">
+
                 <div className="flex flex-col gap-4">
-                    {navBarItems.map((n, i) =>
-                        <button
-                            onClick={() => setPageIndex(i)}
-                            className={`flex gap-4 p-2 ${buttons.bulb} ${pageIndex === i && "bg-white shadow-secondary text-black"}`}
-                        >
-                            {n.icon}
-                            {expand && <p className="px-12 w-max">n.title</p>}
-                        </button>
-                    )}
+                    {Object.entries(pages).map(([title, i]) => (
+                        (projectView || i < 2) && <NavBtn key={i} title={title} active={pageIndex === i} onClick={() => updatePageIndex(i)} icon={navIcons[i]} />))}
                 </div>
 
                 <button className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`} onClick={() => setSessionToken('')}>

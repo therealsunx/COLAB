@@ -1,3 +1,15 @@
+body::-webkit-scrollbar {
+  width: 0.3rem;
+  padding: 1rem 0;
+  background: #aaaa;
+  border-radius: 2rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 2rem;
+}
+
 html {
   min-height: 100%;
   margin: 0;
@@ -45,7 +57,7 @@ main {
   animation: appear 0.5s ease 0.2s;
 }
 
-main > div {
+main>div {
   max-width: 550px;
   min-width: 300px;
   transition: 0.07s;
@@ -58,7 +70,7 @@ main > div {
   flex-direction: column;
 }
 
-#description > img {
+#description>img {
   max-width: 100%;
   flex: 1;
 }
@@ -97,6 +109,7 @@ a {
 .wbo-button:active {
   box-shadow: inset 1px 1px 5px #555;
 }
+
 #named-board-form {
   display: flex;
   background: linear-gradient(#ccdfdf, #abc6c6);
@@ -104,6 +117,7 @@ a {
   border-radius: 28px;
   margin-bottom: 40px;
 }
+
 #named-board-form input {
   line-height: 20px;
   border-radius: 5px;
@@ -119,6 +133,7 @@ a {
   border-radius: 15px 0 0 15px;
   background: #ffffffcf;
 }
+
 #named-board-form input[type="text"]:focus {
   background: #fff;
 }
@@ -128,6 +143,7 @@ a {
   border-radius: 0 15px 15px 0;
   background: #fff6;
 }
+
 #named-board-form input[type="submit"]:hover {
   background: #fff3;
 }
@@ -285,6 +301,7 @@ footer a:hover {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }

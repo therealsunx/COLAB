@@ -8,8 +8,8 @@ export const buttons = {
 }
 
 export const cards = {
-    projectFeed: "p-4 rounded-2xl hover:bg-primary bg-black",
-    active: "text-black bg-secondary p-4 rounded-2xl"
+    projectFeed: "p-4 rounded-2xl hover:bg-[#8888] bg-black",
+    active: "text-black bg-[#fff] p-4 rounded-2xl"
 }
 
 export const inputs = {
