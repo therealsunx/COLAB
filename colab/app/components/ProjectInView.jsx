@@ -1,4 +1,5 @@
 import { pages } from "../misc/constants";
+import Page404 from "./404Page";
 import Canvas from "./InProjectData/Canvas";
 import Chat from "./InProjectData/Chat";
 import CodeSpace from "./InProjectData/CodeSpace";
@@ -9,15 +10,13 @@ const ProjectInView = ({ project, pageIndex }) => {
     const getContent = () => {
         switch (pageIndex) {
             case pages.Canvas: return <Canvas />
-            case pages.Chat: return <Chat />
-            case pages.CodeSpace: return <CodeSpace />
             case pages.Tasks:
             case pages.Events:
             case pages.References:
             case pages.Settings:
             case pages.ReadMe:
             default:
-                return <ReadMePage project={project} />
+                return <Page404 />
         }
     }
 
