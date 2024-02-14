@@ -1,4 +1,4 @@
-import { BookIcon, BookOpenTextIcon, CalendarCheckIcon, ClipboardListIcon, Code2Icon, HomeIcon, LibrarySquareIcon, MessageCircleCodeIcon, PencilLineIcon, Rows3Icon, SettingsIcon } from "lucide-react";
+import { BookOpenTextIcon, CalendarCheckIcon, ClipboardListIcon, Code2Icon, HomeIcon, LibrarySquareIcon, MessageCircleCodeIcon, PencilLineIcon, Rows3Icon, SettingsIcon } from "lucide-react";
 
 export const pages = Object.freeze({
     Home: 0,
@@ -8,9 +8,8 @@ export const pages = Object.freeze({
     Chat: 4,
     CodeSpace: 5,
     Tasks: 6,
-    Events: 7,
-    References: 8,
-    Settings: 9
+    References: 7,
+    Settings: 8
 })
 
 export const navIcons = [
@@ -21,7 +20,8 @@ export const navIcons = [
     <MessageCircleCodeIcon />,
     <Code2Icon />,
     <ClipboardListIcon />,
-    <CalendarCheckIcon />,
     <LibrarySquareIcon />,
     <SettingsIcon />,
 ];
+
+//colab_server_1234

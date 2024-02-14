@@ -4,7 +4,9 @@ export const buttons = {
     semicon: "rounded-r-full bg-black hover:invert w-10 h-10 p-2",
     icon: "rounded-full bg-black hover:invert w-10 h-10 p-2",
     mini: "hover:text-tertiary hover:-translate-y-1 hover:scale-125 duration-300 cursor-pointer",
-    primary: "bg-primary hover:invert rounded-2xl "
+    primary: "bg-primary hover:invert rounded-2xl",
+    miniactionsec: "rounded-full shadow-lg w-9 h-9 p-2 hover:shadow-secondary hover:stroke-secondary bg-black",
+    miniactionred: "rounded-full shadow-lg w-9 h-9 p-2 hover:shadow-[#f00] hover:stroke-[#f00] bg-black"
 }
 
 export const cards = {

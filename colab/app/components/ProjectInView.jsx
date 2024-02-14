@@ -4,17 +4,19 @@ import Canvas from "./InProjectData/Canvas";
 import Chat from "./InProjectData/Chat";
 import CodeSpace from "./InProjectData/CodeSpace";
 import ReadMePage from "./InProjectData/ReadMe";
+import TasksPage from "./InProjectData/Tasks";
 
 const ProjectInView = ({ project, pageIndex }) => {
 
     const getContent = () => {
         switch (pageIndex) {
-            case pages.Canvas: return <Canvas />
-            case pages.Tasks:
-            case pages.Events:
+            case pages.Canvas: return <Canvas />;
+            case pages.ReadMe: return <ReadMePage project={project} />;
+            case pages.CodeSpace: return <CodeSpace project={project} />;
+            case pages.Chat: return <Chat />;
+            case pages.Tasks: return <TasksPage project={project} />
             case pages.References:
             case pages.Settings:
-            case pages.ReadMe:
             default:
                 return <Page404 />
         }
@@ -27,5 +29,7 @@ const ProjectInView = ({ project, pageIndex }) => {
         </div>
     )
 }
+
+
 
 export default ProjectInView;

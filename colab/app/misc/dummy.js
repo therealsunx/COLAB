@@ -23,7 +23,8 @@ export const projects = [
       This project serves as an excellent entry into the world of mobile application development. It offers hands-on experience with React Native, allowing for cross-platform mobile app development. Students will learn about state management using Redux, dealing with local storage, and implementing push notifications. The app's development will also involve understanding and applying concepts of responsive design and user-centric interfaces.`,
     skills: "Mobile App Development; React Native; State Management (Redux); Local Storage",
     impressions: 650,
-    upvotes: 600
+    upvotes: 600,
+    repo: ['github.com/therealsunx/EndLess']
   },
   {
     title: "2D Platformer Game",
@@ -36,7 +37,8 @@ export const projects = [
       Developing this game offers an extensive learning experience in using Unity and C#. Students will explore the principles of game design, character animation, level design, and sound integration. They'll also learn to fine-tune the player's experience by balancing difficulty levels and ensuring smooth gameplay. Furthermore, students can experiment with adding additional features like power-ups, leaderboards, and player customization to enhance the game's replay value.`,
     skills: "Game Development; Unity; C# Programming; 2D Graphics; Physics Simulation",
     impressions: 900,
-    upvotes: 820
+    upvotes: 820,
+    repo: ['github.com/therealsunx/EndLess']
   },
   {
     title: "Weather Forecast App",
@@ -49,7 +51,8 @@ export const projects = [
       This project is excellent for learning how to fetch and handle data from external APIs, in this case, a weather API. Students will develop skills in creating responsive layouts using frameworks like React or React Native, depending on whether the app is web-based or mobile. Additional skills developed will include state management, handling asynchronous requests, and creating user-friendly interfaces that adapt to different devices and screen sizes.`,
     skills: "Web or Mobile App Development; API Integration; Frontend (React or React Native)",
     impressions: 750,
-    upvotes: 680
+    upvotes: 680,
+    repo: ['github.com/therealsunx/EndLess']
   },
   {
     title: "Chat Application",
@@ -62,7 +65,8 @@ export const projects = [
       Developing this application will provide students with a deep understanding of full-stack development. They will learn about frontend development using React, managing application state with libraries like Redux or Context API, and backend development with Node.js. A significant focus will be on understanding and implementing real-time communication using WebSocket technology, particularly Socket.io. This project also covers important aspects like user authentication, data storage, and ensuring application scalability and security.`,
     skills: "Web Development; WebSocket; Frontend (React); Backend (Node.js, Socket.io)",
     impressions: 850,
-    upvotes: 780
+    upvotes: 780,
+    repo: ['github.com/therealsunx/EndLess']
   }
 ];
 
@@ -78,7 +82,8 @@ export const myProjects = [
       This project is ideal for students aiming to learn and implement web development, database management, user interface design, and user experience optimization. It demonstrates practical use of HTML, CSS, JavaScript, a backend technology like Node.js, a web framework like Express, and a database system like MongoDB. Students will also gain experience in user authentication and authorization, ensuring data security and privacy.`,
     skills: "Web Development; Frontend (HTML, CSS, JavaScript); Backend (Node.js, Express); Database (MongoDB)",
     impressions: 800,
-    upvotes: 720
+    upvotes: 720,
+    repo: ['github.com/therealsunx/EndLess']
   },
   {
     title: "Expense Tracker App",
@@ -91,7 +96,8 @@ export const myProjects = [
       This project serves as an excellent entry into the world of mobile application development. It offers hands-on experience with React Native, allowing for cross-platform mobile app development. Students will learn about state management using Redux, dealing with local storage, and implementing push notifications. The app's development will also involve understanding and applying concepts of responsive design and user-centric interfaces.`,
     skills: "Mobile App Development; React Native; State Management (Redux); Local Storage",
     impressions: 650,
-    upvotes: 600
+    upvotes: 600,
+    repo: ['github.com/therealsunx/EndLess', 'github.com/therealsunx/EndLess', 'github.com/therealsunx/EndLess', 'github.com/therealsunx/EndLess']
   },
   {
     title: "2D Platformer Game",
@@ -104,6 +110,30 @@ export const myProjects = [
       Developing this game offers an extensive learning experience in using Unity and C#. Students will explore the principles of game design, character animation, level design, and sound integration. They'll also learn to fine-tune the player's experience by balancing difficulty levels and ensuring smooth gameplay. Furthermore, students can experiment with adding additional features like power-ups, leaderboards, and player customization to enhance the game's replay value.`,
     skills: "Game Development; Unity; C# Programming; 2D Graphics; Physics Simulation",
     impressions: 900,
-    upvotes: 820
+    upvotes: 820,
+    repo: ['github.com/therealsunx/EndLess']
   }
 ];
+
+export const tasks = [
+  {
+    title : "add real-time-chat",
+    description : "Add real time chat feature for each project in co-lab.",
+    completed : false
+  },
+  {
+    title : "integrate github api for project data",
+    description : "Use github api to get the project data from github, validate the repo, manage collaboraters, etc",
+    completed : false
+  },
+  {
+    title: "add whiteboard in the project",
+    description: "Add real time collaborative whiteboard feature for each project in co-lab.",
+    completed: true
+  },
+  {
+    title: "integrate github api for project data",
+    description: "Use github api to get the project data from github, validate the repo, manage collaboraters, etc",
+    completed: false
+  }
+]
