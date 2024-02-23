@@ -3,7 +3,7 @@ import { buttons } from "@/app/misc/styles";
 const { useState } = require("react");
 
 const Canvas = () => {
-    const [boardURL, setBoardURL] = useState('');
+    const [boardURL, setBoardURL] = useState('http://localhost:8080/boards/X7c2Ys1FVT9cewYS1JsKXVqb31I5GP-OB9urt63qosA-');
 
     const getRandomBoard = async () => {
         try {

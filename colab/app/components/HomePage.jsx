@@ -12,8 +12,8 @@ const HomePage = ({ sessionToken, setSessionToken }) => {
     const [openProj, setOpenProj] = useState(null);
 
     const getContent = () => {
-        if (pageIndex === 0) return projects;
-        else if (pageIndex === 1) return myProjects;
+        if (pageIndex === 0) return projects; // db baata feed ko laagi projects fetch garerw return garne
+        else if (pageIndex === 1) return myProjects; // fb baata user involve vako projects return garne
         else return openProj;
     }
 
