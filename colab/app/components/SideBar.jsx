@@ -19,7 +19,7 @@ const SideBar = ({ sessionToken, setSessionToken, pageIndex, updatePageIndex, pr
     )
 
     return (
-        <div className="flex flex-col border-r-2 p-2 rounded-b-xl">
+        <div className="fixed h-screen bg-black z-10 flex flex-col border-r-2 p-2 rounded-b-xl">
             <div className="flex gap-2 py-4 items-center">
                 <div className={`${expand ? "rotate-180" : "rotate-0"} duration-500 ${buttons.icon}`} onClick={() => setExpand(!expand)}>
                     {expand ? <X /> : <AlignJustify />}

@@ -3,11 +3,11 @@ import { buttons } from "@/app/misc/styles";
 const { useState } = require("react");
 
 const Canvas = () => {
-    const [boardURL, setBoardURL] = useState('http://localhost:8080/boards/X7c2Ys1FVT9cewYS1JsKXVqb31I5GP-OB9urt63qosA-');
+    const [boardURL, setBoardURL] = useState('http://192.168.0.106:8080/boards/X7c2Ys1FVT9cewYS1JsKXVqb31I5GP-OB9urt63qosA-#0,0,0.8');
 
     const getRandomBoard = async () => {
         try {
-            const res = await fetch("http://localhost:8080/random");
+            const res = await fetch("http://192.168.0.106:8080/random");
             if (!res.ok) throw new Error("Network response not OK");
             const result = await res.text();
             const url = /<meta property="og:url" content="(.*?)"/.exec(result)[1];

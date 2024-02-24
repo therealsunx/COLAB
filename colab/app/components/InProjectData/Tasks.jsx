@@ -16,7 +16,7 @@ const TaskLists = ({ type, tasks }) => {
         <p className="text-center font-bold text-2xl">{type}</p>
         <div className="flex flex-col gap-4">
             {tasks.map((t, i) =>
-                <div className="flex flex-col p-2 shadow-lg shadow-[#444] cursor-pointer bg-[#333] hover:invert rounded-xl">
+                <div key={i} className="flex flex-col p-2 shadow-lg shadow-[#444] cursor-pointer bg-[#333] hover:invert rounded-xl">
                     <p className="text-xl text-center underline font-semibold">{t.title}</p>
                     <p className="p-2">{t.description}</p>
                     <div className="flex justify-between">

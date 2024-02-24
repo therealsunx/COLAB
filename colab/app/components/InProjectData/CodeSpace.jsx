@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link"
 import { useState } from "react";
 
-function NewRepoForm({project, className}) { // 
+function NewRepoForm({ project, className }) { // 
     const [repo, setRepo] = useState('');
 
     const addnewrepo = (repo) => {
@@ -30,8 +30,8 @@ export default function CodeSpace({ project }) {
         <div className="w-full flex gap-4 justify-center p-12">
             {project.repo && <div className="flex flex-col flex-1 gap-4 p-4 bg-[#333] rounded-xl">
                 <p className="text-xl text-center font-semibold mb-4 ">Repositories </p>
-                {project.repo.map((r, i)=>
-                    <Link href={`https://vscode.dev/${r}`} className={`px-6 py-2 ${buttons.bulb} flex justify-between`} target="_blank">{r} <ArrowRight /> </Link>
+                {project.repo.map((r, i) =>
+                    <Link key={i} href={`https://vscode.dev/${r}`} className={`px-6 py-2 ${buttons.bulb} flex justify-between`} target="_blank">{r} <ArrowRight /> </Link>
                 )}
             </div>}
 
