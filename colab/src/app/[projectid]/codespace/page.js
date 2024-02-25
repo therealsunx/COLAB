@@ -1,9 +1,13 @@
-import { buttons } from "@/app/misc/styles";
+'use client';
+
+import { projects } from "@/src/misc/dummy";
+import { buttons } from "@/src/misc/styles";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link"
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
-function NewRepoForm({ project, className }) { // 
+function NewRepoForm({ className }) { // 
     const [repo, setRepo] = useState('');
 
     const addnewrepo = (repo) => {
@@ -25,7 +29,11 @@ function NewRepoForm({ project, className }) { //
 }
 
 
-export default function CodeSpace({ project }) {
+export default function CodeSpace() {
+    
+    const params = useParams();
+    const project = projects.find(x => x.id == params.projectid);
+
     return (
         <div className="w-full flex gap-4 justify-center p-12">
             {project.repo && <div className="flex flex-col flex-1 gap-4 p-4 bg-[#333] rounded-xl">

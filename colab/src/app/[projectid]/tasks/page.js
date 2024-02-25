@@ -1,6 +1,8 @@
-import { tasks } from "@/app/misc/dummy"
-import { buttons } from "@/app/misc/styles"
-import { CheckCheck, Trash } from "lucide-react"
+'use client';
+
+import { tasks } from "@/src/misc/dummy";
+import { buttons } from "@/src/misc/styles";
+import { CheckCheck, Trash } from "lucide-react";
 
 const TaskLists = ({ type, tasks }) => {
 
@@ -29,7 +31,8 @@ const TaskLists = ({ type, tasks }) => {
     </div>
 }
 
-export default function TasksPage({ project }) {
+export default function TasksPage() {
+
     return (
         <div className="w-full h-full p-12">
             <div className="flex flex-wrap justify-around gap-4">

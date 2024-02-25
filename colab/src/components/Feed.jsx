@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+'use client';
+
+import { useState } from "react";
 import { ChevronsUp, EyeIcon, Search, User } from "lucide-react";
 import { buttons, cards } from "../misc/styles";
+import { myProjects } from "../misc/dummy";
 
 const FeedProjectCard = ({ project, onClick, className }) => {
 
@@ -23,7 +26,18 @@ const FeedProjectCard = ({ project, onClick, className }) => {
     )
 }
 
-const ProjectDetailCard = ({ project, onOpenProject }) => {
+const ProjectDetailCard = ({ project }) => {
+
+    const onProjectWork = () => {
+        let isInvolved = myProjects.find(v => v === project.id); // fetch if userid is present at the member list of the project
+
+        if (isInvolved) {
+            window.location.href = "/" + project.id; // pass the project's id
+        } else {
+            window.location.href = "/apply/" + project.id;
+        }
+    }
+
     return (
         <div className="flex flex-col gap-4 items-center bg-[#6666] border-2 p-8 w-1/2 rounded-l-2xl rounded-r-md overflow-auto">
             <div className="flex w-full items-center justify-between">
@@ -49,12 +63,12 @@ const ProjectDetailCard = ({ project, onOpenProject }) => {
                     ))}
                 </div>
             </div>
-            <button className={`mt-6 px-6 py-3 ${buttons.bulb}`} onClick={() => onOpenProject(project)}>Work On Project</button>
+            <button className={`mt-6 px-6 py-3 ${buttons.bulb}`} onClick={onProjectWork}>Work On Project</button>
         </div>
     )
 }
 
-const Feed = ({ content, onOpenProject }) => {
+const Feed = ({ content }) => {
     const [viewed, setViewed] = useState(0);
     const [searchPrmpt, setSearchPrmpt] = useState("");
 
@@ -76,7 +90,7 @@ const Feed = ({ content, onOpenProject }) => {
                 <div className="flex justify-between w-full gap-2 mb-12">
                     <div className="flex items-center gap-4">
                         <User className={buttons.icon} />
-                        Harka Sampang
+                        John Doe
                     </div>
 
                     <div className="flex">
@@ -97,7 +111,7 @@ const Feed = ({ content, onOpenProject }) => {
                 </div>
             </div>
 
-            <ProjectDetailCard project={content[getIndex()]} onOpenProject={onOpenProject} />
+            <ProjectDetailCard project={content[getIndex()]} />
         </div>
     )
 }

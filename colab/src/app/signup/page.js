@@ -1,5 +1,8 @@
+'use client';
+
 import { useRef, useState } from "react";
-import { buttons, inputs } from "../misc/styles";
+import { inputs, buttons } from "@/src/misc/styles";
+import Link from "next/link";
 
 const def = {
     name: "",
@@ -13,8 +16,7 @@ const def = {
     experience: 0
 }
 
-const NewUserForm = ({ setSessionToken, setNewUser }) => {
-
+export default function SignUp() {
     const formref = useRef(null);
     const [form, setForm] = useState(def);
 
@@ -79,7 +81,7 @@ const NewUserForm = ({ setSessionToken, setNewUser }) => {
 
                     <div className="flex justify-around gap-6">
                         <button type="submit" className={`py-4 flex-1 ${buttons.bulb}`}> Submit </button>
-                        <button className={`py-4 flex-1 ${buttons.redbulb}`} onClick={() => setNewUser(false)}> Cancel </button>
+                        <Link href="/login" className={`py-4 flex-1 ${buttons.redbulb}`}> Cancel </Link>
                     </div>
 
                 </form>
@@ -88,5 +90,3 @@ const NewUserForm = ({ setSessionToken, setNewUser }) => {
         </div>
     )
 }
-
-export default NewUserForm;
