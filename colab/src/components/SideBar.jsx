@@ -14,8 +14,6 @@ const SideBar = () => {
 
     const projectView = params.projectid != null;
 
-    console.log(params);
-
     const cmpCurPath = l => {
         return l.replace('[id]', params.projectid) === path;
     }
