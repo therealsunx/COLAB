@@ -1,14 +1,55 @@
 'use client';
 
-import { AlignJustify, UserRound, X } from "lucide-react";
-import { useState } from "react";
+import { AlignJustify, LogOut, UserRound, X } from "lucide-react";
+import { useState, useEffect } from "react";
 import { buttons } from "../misc/styles";
 import { pages } from "../misc/constants";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { signInWithGoogle, signOut, onAuthStateChanged } from "@/src/firebase/auth";
 
-const SideBar = () => {
-    const [expand, setExpand] = useState(false);
+
+function useUserSession(initialUser) {
+    // The initialUser comes from the server through a server component
+    const [user, setUser] = useState(initialUser);
+    const router = useRouter();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(authUser => {
+            setUser(authUser);
+        });
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    useEffect(() => {
+        onAuthStateChanged(authUser => {
+            if (user === undefined) return;
+            if (user?.email !== authUser?.email) {
+                router.refresh();
+            }
+        });
+    }, [user]);
+
+    return user;
+}
+
+const SideBar = ({ initialUser }) => {
+    const user = useUserSession(initialUser);
+    console.log(user);
+
+    const handleLogIn = async (e) => {
+        e.preventDefault();
+        signInWithGoogle();
+    };
+
+    const handleLogOut = async e => {
+        e.preventDefault();
+        signOut();
+    }
+
+    const [expand, setExpand] = useState(true);
     const params = useParams();
     const path = usePathname();
 
@@ -46,10 +87,10 @@ const SideBar = () => {
                         (projectView || i < 2) && <NavBtn key={i} title={title} data={data} active={cmpCurPath(data.link)} />))}
                 </div>
 
-                <Link href="/login" className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`}>
-                    <UserRound />
-                    {expand && <p className="px-12">LogIn/SignUp</p>}
-                </Link>
+                <div className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`} onClick={user ? handleLogOut : handleLogIn}>
+                    {user ? <LogOut /> : <UserRound />}
+                    {expand && <p className="px-12">{user ? user.displayName : "LogIn"}</p>}
+                </div>
             </div>
         </div>
     )

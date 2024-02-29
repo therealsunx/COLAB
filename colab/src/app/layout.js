@@ -10,10 +10,11 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const currentUser = null; //maybe implement cookies later on
   return (
     <html lang="en">
       <body className={`pl-16 ${inter.className}`}>
-        <SideBar />
+        <SideBar initialUser={currentUser} />
         {children}
       </body>
     </html>

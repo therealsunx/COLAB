@@ -1,4 +1,5 @@
 'use client';
+import { signInWithGoogle, signOut, onAuthStateChanged } from "@/src/firebase/auth";
 import { useState } from "react";
 import Link from "next/link";
 import { inputs, buttons } from "@/src/misc/styles";
@@ -7,9 +8,15 @@ export default function Login() {
     const [logData, setLogData] = useState({ userid: '', password: '' });
 
 
-    const handleLogIn = () => {
-
+    const handleLogIn = (e) => {
+        e.preventDefault();
+        signInWithGoogle();
     };
+
+    const handleLogOut = e => {
+        e.preventDefault();
+        signOut();
+    }
 
     const forgetPassword = () => {
 
