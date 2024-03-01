@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import SideBar from '../components/SideBar'
+import { AuthProvider } from '../components/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,13 +11,14 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  const currentUser = null; //maybe implement cookies later on
   return (
     <html lang="en">
-      <body className={`pl-16 ${inter.className}`}>
-        <SideBar initialUser={currentUser} />
-        {children}
-      </body>
+      <AuthProvider>
+        <body className={`flex ${inter.className}`}>
+          <SideBar />
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   )
 }

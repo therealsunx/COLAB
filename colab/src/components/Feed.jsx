@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ChevronsUp, EyeIcon, Search, User } from "lucide-react";
 import { buttons, cards } from "../misc/styles";
 import { myProjects } from "../misc/dummy";
+import { AuthContext } from "./AuthContext";
+import Link from "next/link";
 
 const FeedProjectCard = ({ project, onClick, className }) => {
 
@@ -68,7 +70,7 @@ const ProjectDetailCard = ({ project }) => {
     )
 }
 
-const Feed = ({ content }) => {
+const Feed = ({ user, content }) => {
     const [viewed, setViewed] = useState(0);
     const [searchPrmpt, setSearchPrmpt] = useState("");
 
@@ -88,10 +90,10 @@ const Feed = ({ content }) => {
 
             <div className="flex flex-col w-1/2 items-center p-8 border-2 rounded-2xl">
                 <div className="flex justify-between w-full gap-2 mb-12">
-                    <div className="flex items-center gap-4">
+                    <Link href="/account" className="flex items-center gap-4">
                         <User className={buttons.icon} />
-                        John Doe
-                    </div>
+                        {user?.displayName || "guestuser"}
+                    </Link>
 
                     <div className="flex">
                         <input

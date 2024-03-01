@@ -1,57 +1,18 @@
 'use client';
 
-import { AlignJustify, LogOut, UserRound, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { AlignJustify, UserRound, X } from "lucide-react";
+import { useContext, useState } from "react";
 import { buttons } from "../misc/styles";
 import { pages } from "../misc/constants";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { signInWithGoogle, signOut, onAuthStateChanged } from "@/src/firebase/auth";
+import { useParams, usePathname } from "next/navigation";
+import { AuthContext } from "./AuthContext";
 
-
-function useUserSession(initialUser) {
-    // The initialUser comes from the server through a server component
-    const [user, setUser] = useState(initialUser);
-    const router = useRouter();
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(authUser => {
-            setUser(authUser);
-        });
-        return () => {
-            unsubscribe();
-        };
-    }, []);
-
-    useEffect(() => {
-        onAuthStateChanged(authUser => {
-            if (user === undefined) return;
-            if (user?.email !== authUser?.email) {
-                router.refresh();
-            }
-        });
-    }, [user]);
-
-    return user;
-}
-
-const SideBar = ({ initialUser }) => {
-    const user = useUserSession(initialUser);
-    console.log(user);
-
-    const handleLogIn = async (e) => {
-        e.preventDefault();
-        signInWithGoogle();
-    };
-
-    const handleLogOut = async e => {
-        e.preventDefault();
-        signOut();
-    }
-
+const SideBar = () => {
     const [expand, setExpand] = useState(true);
     const params = useParams();
     const path = usePathname();
+    const { user } = useContext(AuthContext);
 
     const projectView = params.projectid != null;
 
@@ -70,9 +31,8 @@ const SideBar = ({ initialUser }) => {
             </Link>
         )
     }
-
     return (
-        <div className="h-screen fixed left-0 bg-black z-10 flex flex-col border-r-2 p-2 rounded-b-xl">
+        <div className="h-screen w-fit bg-black z-10 flex flex-col border-r-2 p-2 rounded-b-xl">
             <div className="flex gap-2 py-4 items-center">
                 <div className={`${expand ? "rotate-180" : "rotate-0"} duration-500 ${buttons.icon}`} onClick={() => setExpand(!expand)}>
                     {expand ? <X /> : <AlignJustify />}
@@ -87,10 +47,10 @@ const SideBar = ({ initialUser }) => {
                         (projectView || i < 2) && <NavBtn key={i} title={title} data={data} active={cmpCurPath(data.link)} />))}
                 </div>
 
-                <div className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`} onClick={user ? handleLogOut : handleLogIn}>
-                    {user ? <LogOut /> : <UserRound />}
-                    {expand && <p className="px-12">{user ? user.displayName : "LogIn"}</p>}
-                </div>
+                <Link href="/account" className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`}>
+                    <UserRound />
+                    {expand && <p className="px-12 w-max">{user?.displayName || "LogIn/SignUp"}</p>}
+                </Link>
             </div>
         </div>
     )

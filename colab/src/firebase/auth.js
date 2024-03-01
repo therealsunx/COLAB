@@ -2,6 +2,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     onAuthStateChanged as _onAuthStateChanged,
+    signInWithEmailAndPassword,
 } from "firebase/auth";
 
 import { auth } from "@/src/firebase/firebase";
@@ -11,15 +12,12 @@ export function onAuthStateChanged(cb) {
 }
 
 export async function signInWithGoogle() {
-    let user = null;
     const provider = new GoogleAuthProvider();
-
     try {
-        await signInWithPopup(auth, provider).then(res => user = res.user);
+        await signInWithPopup(auth, provider);
     } catch (error) {
         console.error("Error signing in with Google", error);
     }
-    return user;
 }
 
 export async function signOut() {
