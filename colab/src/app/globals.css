@@ -27,3 +27,11 @@ body {
       transparent,
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
+
+.form-input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  background-color: #4449;
+  text-align: right;
+  border-radius: 1rem;
+}

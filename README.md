@@ -11,7 +11,6 @@
     * Implement readme decoding (same as github readme)
 ------------------------
 
-
 ------------- project ----------------
 project : {
     normal_data : { title, description, README, skills, manager, members[] }
