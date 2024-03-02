@@ -1,6 +1,15 @@
-import { useState } from 'react';
+'use client';
+
+import { PlusCircleIcon, TrashIcon } from 'lucide-react';
+import { useContext, useState } from 'react';
+import { buttons } from '../misc/styles';
+import { AuthContext } from './AuthContext';
+import { addProject, setProject, updateUser } from '../firebase/firestore';
+import { projects } from '../misc/dummy';
+import { arrayUnion } from 'firebase/firestore';
 
 const ProjectForm = () => {
+    const { user } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         name: '',
         intro: '',
@@ -68,121 +77,111 @@ const ProjectForm = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        // Submit form data or perform further actions here
-        console.log(formData);
+        let fd = { ...formData, manager: user.uid, members: [user.uid] };
+        await addProject(fd).then(async r => updateUser(user.uid, { projects: arrayUnion(r) }));
+        setFormData({
+            name: '',
+            intro: '',
+            detail: '',
+            skills: [],
+            members: [],
+            manager: ''
+        });
     };
 
     return (
-        <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+        <form onSubmit={handleSubmit} className="mx-auto space-y-4 p-12">
+
+            <p className='font-bold text-xl text-center p-6'>Create A New Project</p>
+
+            <div className="form-div2">
+                <label className="block text-sm font-bold mb-2" htmlFor="name">
                     Project Name
                 </label>
                 <input
-                    type="text"
-                    id="name"
-                    name="name"
+                    type="text" id="name" name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-                    required
-                />
-            </div>
-            {/* Add other fields similarly */}
-
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                    Intro
-                </label>
-                <input
-                    type="text"
-                    id="intro"
-                    name="intro"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                    className="form-input"
                     required
                 />
             </div>
 
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                    Detail
+            <div className="form-div2">
+                <label className="block text-sm font-bold mb-2" htmlFor="name">
+                    Intro to project
                 </label>
                 <input
-                    type="text"
-                    id="detail"
-                    name="detail"
-                    value={formData.name}
+                    type="text" id="intro" name="intro"
+                    value={formData.intro}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                    className="form-input"
+                    required
+                />
+            </div>
+
+            <div className="form-div2">
+                <label className="block text-sm font-bold mb-2" htmlFor="name">
+                    Detail about project
+                </label>
+                <textarea
+                    type="text" id="detail" name="detail" rows={4}
+                    value={formData.detail}
+                    onChange={handleChange}
+                    className="form-input"
                     required
                 />
             </div>
 
             {/* Skills */}
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Skills
+            <div className="form-div2">
+                <label className="block text-sm font-bold mb-2">
+                    Skills Required
                 </label>
-                {formData.skills.map((skill, index) => (
-                    <div key={index} className="flex mb-2">
-                        <input
-                            type="text"
-                            value={skill}
-                            onChange={(e) => handleSkillsChange(e, index)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-                            required
-                        />
-                        <button type="button" onClick={() => handleRemoveSkill(index)} className="ml-2 px-3 py-2 bg-red-500 text-white rounded focus:outline-none">Remove</button>
-                    </div>
-                ))}
-                <button type="button" onClick={handleAddSkill} className="px-3 py-2 bg-green-500 text-white rounded focus:outline-none">Add Skill</button>
+                <div className='flex-grow flex flex-wrap gap-4'>
+                    {formData.skills.map((skill, index) => (
+                        <div key={index} className="flex gap-4 items-center">
+                            <input
+                                type="text"
+                                value={skill}
+                                onChange={(e) => handleSkillsChange(e, index)}
+                                className="form-input"
+                                required
+                            />
+                            <TrashIcon type="button" onClick={() => handleRemoveSkill(index)} className="w-10 h-10 p-2 hover:bg-[#a00] text-white rounded-full" />
+                        </div>
+                    ))}
+                    <PlusCircleIcon type="button" onClick={handleAddSkill} className="self-end w-10 h-10 p-2 rounded-full hover:bg-primary" />
+                </div>
             </div>
 
             {/* Members */}
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+            <div className="form-div2">
+                <label className="block text-sm font-bold mb-2">
                     Members
                 </label>
-                {formData.members.map((member, index) => (
-                    <div key={index} className="flex mb-2">
-                        <input
-                            type="text"
-                            value={member}
-                            onChange={(e) => handleMemberChange(e, index)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-                            required
-                        />
-                        <button type="button" onClick={() => handleRemoveMember(index)} className="ml-2 px-3 py-2 bg-red-500 text-white rounded focus:outline-none">Remove</button>
-                    </div>
-                ))}
-                <button type="button" onClick={handleAddMember} className="px-3 py-2 bg-green-500 text-white rounded focus:outline-none">Add Member</button>
+                <div className='flex-grow flex flex-wrap gap-4'>
+                    {formData.members.map((member, index) => (
+                        <div key={index} className="flex gap-4 items-center">
+                            <input
+                                type="text"
+                                value={member}
+                                onChange={(e) => handleMemberChange(e, index)}
+                                className="form-input"
+                                required
+                            />
+                            <TrashIcon onClick={() => handleRemoveMember(index)} className="w-10 h-10 p-2 hover:bg-[#a00] text-white rounded-full" />
+                        </div>
+                    ))}
+                    <PlusCircleIcon onClick={handleAddMember} className="self-end w-10 h-10 p-2 rounded-full hover:bg-primary" />
+                </div>
             </div>
 
-            {/* Manager */}
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="manager">
-                    Manager
-                </label>
-                <input
-                    type="text"
-                    id="manager"
-                    name="manager"
-                    value={formData.manager}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-                    required
-                />
-            </div>
-
-            <div className="mb-4">
-                <button type="submit" className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">
-                    Submit
-                </button>
-            </div>
+            <button type="submit" className={`${buttons.bulb} px-8 py-2`}>
+                Submit
+            </button>
         </form>
     );
 };

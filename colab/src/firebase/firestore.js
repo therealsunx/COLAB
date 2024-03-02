@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, getDocs, addDoc, updateDoc } from "firebase/firestore";
 
 
 const users = collection(db, "users");
@@ -26,6 +26,11 @@ export const getUser = async (id) => {
     const snap = await getDoc(ref);
     if (snap.exists()) return snap.data();
     else return null;
+}
+
+export const updateUser = async (id, data) => {
+    const ref = doc(db, "users", id);
+    await updateDoc(ref, data);
 }
 
 export const getProjectData = async (id) => {
@@ -56,6 +61,11 @@ export const getProject = async (id) => {
 
 export const setProject = async (id, data) => {
     await setDoc(doc(projects, id), data);
+}
+
+export const addProject = async (data) => {
+    const ref = await addDoc(collection(db, "projects"), data);
+    return ref.id;
 }
 
 export const setLinks = async (id, data) => {

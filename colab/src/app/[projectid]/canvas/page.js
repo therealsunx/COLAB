@@ -4,19 +4,20 @@ import { buttons } from "@/src/misc/styles";
 import { useState } from "react";
 
 export default function canvas() {
-    const [boardURL, setBoardURL] = useState('http://localhost:8080/boards/wjZUGFgGMPjeyd-2vTjNv-yQ363Y2MQuj1aVmVBS4To-');
+    const [boardURL, setBoardURL] = useState('https://wbo.ophir.dev/boards/rwnrq-nosLKZdLsA2wpt10tVLvagMos162PanPcoUTo-');
 
     const getRandomBoard = async () => {
         try {
-            const res = await fetch("http://localhost:8080/random");
+            const res = await fetch("https://wbo.ophir.dev/random");
             if (!res.ok) throw new Error("Network response not OK");
             const result = await res.text();
             const url = /<meta property="og:url" content="(.*?)"/.exec(result)[1];
+            console.log(result);
             console.log(url);
             setBoardURL(url);
 
         } catch (err) {
-            console.log(err);
+            console.log("ooooops", err);
         }
     }
 

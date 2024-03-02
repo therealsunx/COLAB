@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useProject } from "@/src/components/ProjectContext";
 
 export default function Project() {
-    const { project, links, setProject, setLinks } = useProject();
+    const { project } = useProject();
 
+    // console.log(project);
     if (!project) return null;
 
     return (
@@ -15,9 +16,9 @@ export default function Project() {
 
             <p className="text-xl p-6 font-bold border-b-2">{project.intro}</p>
 
-            <p className="px-2 py-6 text-center w-1/2 font-semibold">{project.detail}</p>
+            <p className="px-2 py-6 text-center w-2/3 font-semibold">{project.detail}</p>
 
-            <div className="flex flex-col items-center gap-2 border-y-2 py-4 w-1/2 mt-4">
+            <div className="flex flex-col items-center gap-2 border-y-2 py-4 w-2/3 mt-4">
                 <p className="text-3xl font-bold p-3">Skills</p>
                 <div className="flex flex-wrap justify-center gap-4 py-4">
                     {project.skills.map((s, i) => (

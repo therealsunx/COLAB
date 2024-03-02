@@ -2,15 +2,6 @@
 
 ### db
 `   
-    projects {
-        name : string,
-        intro : string,
-        detail : string,
-        skills : array (string),
-        members : array (string *id*),
-        manager : string *id*,
-    }
-
     users {
         name : string,
         education : string,
@@ -18,6 +9,15 @@
         experience : array (string),   :: format : "position; company; startDate
         projects : array (string * id * ),
         skills : array (string)
+    }
+    
+    projects {
+        name : string,
+        intro : string,
+        detail : string,
+        skills : array (string),
+        members : array (string *id*),
+        manager : string *id*,
     }
 
     links : {

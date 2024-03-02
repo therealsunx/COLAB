@@ -44,7 +44,7 @@ const SideBar = () => {
 
                 <div className="flex flex-col gap-4">
                     {Object.entries(pages).map(([title, data], i) => (
-                        (projectView || i < 2) && <NavBtn key={i} title={title} data={data} active={cmpCurPath(data.link)} />))}
+                        (projectView || i < 3) && <NavBtn key={i} title={title} data={data} active={cmpCurPath(data.link)} />))}
                 </div>
 
                 <Link href="/account" className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`}>

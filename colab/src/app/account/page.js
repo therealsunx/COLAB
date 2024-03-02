@@ -25,8 +25,6 @@ export default function MyAccount() {
 
     }, [user]);
 
-
-
     if (!user || !userData) return <Login />;
 
     const handleChange = e => {
