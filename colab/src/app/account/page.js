@@ -64,7 +64,7 @@ export default function MyAccount() {
                 </div>
 
                 <div className="flex items-center justify-between w-full">
-                    <p className="flex-1 font-bold">NAME</p>
+                    <p className="flex-1 font-bold">Name</p>
                     <input
                         name="name"
                         className="form-input"
@@ -99,14 +99,14 @@ export default function MyAccount() {
 
                 <div className="flex items-center justify-between w-full">
                     <p className="flex-1 font-bold">Experience</p>
-                    <div className="form-input space-y-4">
+                    <div className="form-div space-y-4">
                         <div className="flex flex-col gap-4">
                             {userData.experience.map((e, _) => {
                                 const exp = e.split(";");
                                 return (
                                     <div key={_} className="flex gap-2">
                                         {exp.map((d, __) => (
-                                            <p className="form-input text-[0.8rem] w-fit" key={__}>{d}</p>
+                                            <p className="list-buttn flex-grow" key={__}>{d}</p>
                                         ))}
                                     </div>
                                 )
@@ -114,7 +114,7 @@ export default function MyAccount() {
                         </div>
                         <textarea
                             name="experience"
-                            className="form-input w-full"
+                            className="form-input w-full text-[0.8rem]"
                             type="text" value={userData.experience}
                             onChange={handleList}
                             placeholder="position1 ; company1 ; startDate1 , position2 ; company2 ; startDate2"
@@ -124,17 +124,17 @@ export default function MyAccount() {
 
                 <div className="flex items-center justify-between w-full">
                     <p className="flex-1 font-bold">Skills</p>
-                    <div className="form-input space-y-4">
+                    <div className="form-div space-y-4">
                         <div className="flex flex-wrap gap-4">
                             {userData.skills.map((e, _) => {
                                 return (
-                                    <p className="form-input text-[0.8rem] w-fit" key={_}>{e}</p>
+                                    <p className="list-buttn" key={_}>{e}</p>
                                 )
                             })}
                         </div>
                         <textarea
                             name="skills"
-                            className="form-input w-full"
+                            className="form-input w-full text-[0.8rem]"
                             type="text" value={userData.skills}
                             onChange={handleList}
                             placeholder="skill1, skills2, skill3"

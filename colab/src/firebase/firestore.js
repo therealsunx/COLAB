@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore";
 
 
 const users = collection(db, "users");
@@ -28,8 +28,23 @@ export const getUser = async (id) => {
     else return null;
 }
 
-export const setProject = async (id, data) => {
-    await setDoc(doc(projects, id), data);
+export const getProjectData = async (id) => {
+    const project = await getProject(id);
+    if (!project) return null;
+
+    const memberPromises = project.members.map(async m => {
+        const userData = await getUser(m);
+        return { id: m, name: userData.name };
+    });
+    const members = await Promise.all(memberPromises);
+    // const manager = members.find(x => x.id === project.manager);
+
+    return {
+        id: id,
+        ...project,
+        members: members,
+        // manager: manager
+    };
 }
 
 export const getProject = async (id) => {
@@ -37,6 +52,10 @@ export const getProject = async (id) => {
     const snap = await getDoc(ref);
     if (snap.exists()) return snap.data();
     else return null;
+}
+
+export const setProject = async (id, data) => {
+    await setDoc(doc(projects, id), data);
 }
 
 export const setLinks = async (id, data) => {

@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
       <AuthProvider>
         <body className={`flex ${inter.className}`}>
           <SideBar />
-          {children}
+          <div className='h-screen w-full overflow-y-auto'>
+            {children}
+          </div>
         </body>
       </AuthProvider>
     </html>

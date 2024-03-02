@@ -28,10 +28,26 @@ body {
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
+.form-div {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 1rem;
+  background-color: #4449;
+}
+
 .form-input {
   flex: 1;
   padding: 0.7rem 1rem;
-  background-color: #4449;
   text-align: right;
+  border-radius: 1rem;
+  background-color: #4449;
+}
+
+.list-buttn {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  font-weight: 500;
+  color: black;
+  text-align: center;
   border-radius: 1rem;
 }
