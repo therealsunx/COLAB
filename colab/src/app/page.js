@@ -12,7 +12,7 @@ export default function HomePage() {
   useEffect(() => {
     const getProjs = async () => getFeedProjects().then(r => setProjs(r));
     getProjs();
-  }, [user]);
+  }, []);
 
   return (
     <div className="h-screen flex justify-between">
