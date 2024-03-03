@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from "react";
+import { Suspense, useContext, useState } from "react";
 import { ChevronsUp, EyeIcon, Search, User } from "lucide-react";
 import { buttons, cards } from "../misc/styles";
 import { myProjects } from "../misc/dummy";
@@ -11,10 +11,10 @@ const FeedProjectCard = ({ project, onClick, className }) => {
 
     return (
         <div className={`flex flex-col items-center ${className}`} onClick={onClick}>
-            <p className="font-bold px-4 py-2">{project.title}</p>
-            <p className="px-4 py-2">{project.description}</p>
+            <p className="font-bold px-4 py-2">{project.name}</p>
+            <p className="px-4 py-2">{project.intro}</p>
 
-            <div className="p-4 flex w-full justify-between">
+            {/* <div className="p-4 flex w-full justify-between">
                 <div className="flex gap-2">
                     <EyeIcon className={buttons.mini} />
                     {project.impressions}
@@ -23,7 +23,7 @@ const FeedProjectCard = ({ project, onClick, className }) => {
                     {project.upvotes}
                     <ChevronsUp className={buttons.mini} />
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
@@ -42,7 +42,7 @@ const ProjectDetailCard = ({ project }) => {
 
     return (
         <div className="flex flex-col gap-4 items-center bg-[#6666] border-2 p-8 w-1/2 rounded-l-2xl rounded-r-md overflow-auto">
-            <div className="flex w-full items-center justify-between">
+            {/* <div className="flex w-full items-center justify-between">
                 <div className="flex gap-2">
                     <EyeIcon className={buttons.mini} />
                     {project?.impressions || "___"}
@@ -51,16 +51,16 @@ const ProjectDetailCard = ({ project }) => {
                     {project?.upvotes || "___"}
                     <ChevronsUp className={buttons.mini} />
                 </div>
-            </div>
+            </div> */}
 
-            <p className="text-4xl p-6 font-bold border-b-2">{project?.title || "______"}</p>
-            <p className="text-md p-6 font-semibold border-b-2">{project?.description || "______"}</p>
-            <p className="text-sm px-2 py-6 text-left font-semibold">{project?.readme || "______"}</p>
+            <p className="text-4xl p-6 font-bold border-b-2">{project.name}</p>
+            <p className="text-md p-6 font-semibold border-b-2">{project.intro}</p>
+            <p className="text-sm px-2 py-6 text-left font-semibold">{project.detail}</p>
 
             <div className="flex flex-col gap-2 border-y-2 py-4 rounded-t-xl">
                 <p className="text-2xl font-bold p-3">Skills</p>
                 <div className="flex flex-wrap gap-4 py-4">
-                    {project && project.skills.split(';').map((s, i) => (
+                    {project.skills.map((s, i) => (
                         <p className="px-8 py-3 border-2 shadow-xl rounded-xl hover:bg-white hover:text-black" key={i}>{s}</p>
                     ))}
                 </div>
@@ -80,7 +80,7 @@ const Feed = ({ user, content }) => {
     }
 
     const getIndex = () => {
-        if (viewed < content.length) return viewed;
+        if (viewed < content?.length) return viewed;
         setViewed(0);
         return 0;
     }
@@ -114,7 +114,9 @@ const Feed = ({ user, content }) => {
                 </div>}
             </div>
 
-            <ProjectDetailCard project={content ? content[getIndex()] : null} />
+            <Suspense fallback={<p>No Projects</p>}>
+                {content && <ProjectDetailCard project={content[getIndex()]} />}
+            </Suspense>
         </div>
     )
 }

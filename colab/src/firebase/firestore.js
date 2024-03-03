@@ -33,6 +33,16 @@ export const updateUser = async (id, data) => {
     await updateDoc(ref, data);
 }
 
+export const getAllProjectsOfUser = async (id) => {
+    const user = await getUser(id);
+    if (!user) return null;
+
+    const prms = user.projects.map(async pid => {
+        return await getProjectData(pid);
+    })
+    return await Promise.all(prms);
+}
+
 export const getProjectData = async (id) => {
     const project = await getProject(id);
     if (!project) return null;
@@ -57,6 +67,13 @@ export const getProject = async (id) => {
     const snap = await getDoc(ref);
     if (snap.exists()) return snap.data();
     else return null;
+}
+
+export const getFeedProjects = async () => {
+    let data = [];
+    const snap = await getDocs(projects);
+    snap.forEach(s => data.push(s.data()));
+    return data;
 }
 
 export const setProject = async (id, data) => {

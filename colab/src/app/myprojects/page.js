@@ -2,8 +2,8 @@
 
 import { AuthContext } from "@/src/components/AuthContext";
 import Feed from "@/src/components/Feed";
-import { getProject, getUser } from "@/src/firebase/firestore";
-import { myProjects, projects } from "@/src/misc/dummy";
+import Login from "@/src/components/LogIn";
+import { getAllProjectsOfUser, getProject, getUser } from "@/src/firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 
 const MyProjects = () => {
@@ -13,25 +13,11 @@ const MyProjects = () => {
     useEffect(() => {
         if (!user) return;
 
-        const getProjs = async () => {
-            let __projs;
-
-            await getUser(user.uid).then(async r => {
-                const _gp = async () => {
-                    let projs = []
-                    r.projects.forEach(async id => {
-                        await getProject(id).then(_ => projs.push(_))
-                    });
-                    return projs;
-                }
-
-                await _gp().then(x => __projs = x);
-            });
-            return __projs;
-        }
-
-        getProjs().then(r => setProjs(r));
+        const getProjs = async () => getAllProjectsOfUser(user.uid).then(r => setProjs(r));
+        getProjs();
     }, [user]);
+
+    if (!user) return <Login />
 
     return (
         <div className="h-screen flex justify-between w-full">
