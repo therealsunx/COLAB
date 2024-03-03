@@ -12,7 +12,7 @@ const SideBar = () => {
     const [expand, setExpand] = useState(true);
     const params = useParams();
     const path = usePathname();
-    const { user } = useContext(AuthContext);
+    const { userData } = useContext(AuthContext);
 
     const projectView = params.projectid != null;
 
@@ -48,8 +48,8 @@ const SideBar = () => {
                 </div>
 
                 <Link href="/account" className={`flex gap-4 p-2 mb-4 ${buttons.bulb}`}>
-                    <UserRound />
-                    {expand && <p className="px-12 w-max">{user?.displayName || "LogIn/SignUp"}</p>}
+                    {userData?.photourl ? <img src={userData.photourl} className="size-12 rounded-full" /> : <UserRound />}
+                    {expand && <p className="pl-12 pr-4">{userData?.name || "LogIn/SignUp"}</p>}
                 </Link>
             </div>
         </div>

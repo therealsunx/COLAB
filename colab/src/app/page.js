@@ -6,7 +6,7 @@ import { AuthContext } from "../components/AuthContext";
 import { getFeedProjects } from "../firebase/firestore";
 
 export default function HomePage() {
-  const { user } = useContext(AuthContext);
+  const { auth, userData } = useContext(AuthContext);
   const [projs, setProjs] = useState(null);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function HomePage() {
 
   return (
     <div className="h-screen flex justify-between">
-      <Feed user={user} content={projs} />
+      <Feed userData={{ ...userData, uid: auth?.uid }} auth={auth} content={projs} />
     </div>
   )
 }

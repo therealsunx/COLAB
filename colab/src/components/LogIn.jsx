@@ -4,6 +4,7 @@ import { buttons } from "@/src/misc/styles";
 import { setUser, defaultUserData, getUser } from "../firebase/firestore";
 
 export default function Login() {
+    
     const handleLogInGoogle = async (e) => {
         e.preventDefault();
         await signInWithGoogle().then(

@@ -9,7 +9,7 @@ import { projects } from '../misc/dummy';
 import { arrayUnion } from 'firebase/firestore';
 
 const ProjectForm = () => {
-    const { user } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         name: '',
         intro: '',
@@ -79,8 +79,8 @@ const ProjectForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        let fd = { ...formData, manager: user.uid, members: [user.uid] };
-        await addProject(fd).then(async r => updateUser(user.uid, { projects: arrayUnion(r) }));
+        let fd = { ...formData, manager: auth.uid, members: [auth.uid] };
+        await addProject(fd).then(async r => { updateUser(auth.uid, { projects: arrayUnion(r) }); alert("Project created successfully !") });
         setFormData({
             name: '',
             intro: '',
@@ -160,7 +160,7 @@ const ProjectForm = () => {
             {/* Members */}
             <div className="form-div2">
                 <label className="block text-sm font-bold mb-2">
-                    Members
+                    Add other Members
                 </label>
                 <div className='flex-grow flex flex-wrap gap-4'>
                     {formData.members.map((member, index) => (

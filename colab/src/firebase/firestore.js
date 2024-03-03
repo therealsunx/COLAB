@@ -19,6 +19,13 @@ export const defaultUserData = {
     skills: []
 };
 
+export const defaultLinkData = {
+    boards: [],
+    repos: [],
+    tasks: [],
+    applicants: []
+}
+
 export const setUser = async (id, userdata) => {
     await setDoc(doc(users, id), userdata);
 }
@@ -84,6 +91,7 @@ export const setProject = async (id, data) => {
 
 export const addProject = async (data) => {
     const ref = await addDoc(collection(db, "projects"), data);
+    await setLinks(ref.id, defaultLinkData);
     return ref.id;
 }
 

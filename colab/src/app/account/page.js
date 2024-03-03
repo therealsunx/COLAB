@@ -3,39 +3,31 @@
 import { AuthContext } from "@/src/components/AuthContext";
 import Login from "@/src/components/LogIn";
 import { signOut } from "@/src/firebase/auth";
-import { setUser, getUser } from "@/src/firebase/firestore";
+import { setUser } from "@/src/firebase/firestore";
 import { buttons } from "@/src/misc/styles";
 import { LogOutIcon } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 export default function MyAccount() {
-    const { user } = useContext(AuthContext);
-    const [userData, setUserData] = useState(null);
-
-
-    useEffect(() => {
-        if (!user) return;
-        const getUserData = async () => await getUser(user.uid).then(res => setUserData(res));
-        getUserData();
-    }, [user]);
+    const { userData, auth, setUserData } = useContext(AuthContext);
 
     const handleLogOut = e => {
         e.preventDefault();
         signOut();
-    }
-    if (!user) return <Login />;
-    if (!userData) return <p className="text-3xl text-center font-bold mt-[20%]">Loading...</p>
+    };
+    if (!auth) return <Login />;
+    if (!userData) return <p className="text-3xl text-center font-bold mt-[20%]">Loading...</p>;
 
     const handleChange = e => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     }
 
     const handleList = e => {
-        setUserData({ ...userData, [e.target.name]: e.target.value.split(',') })
+        setUserData({ ...userData, [e.target.name]: e.target.value.split(',') });
     }
 
     const handleSubmit = async () => {
-        await setUser(user.uid, userData).then(r => alert("Updated Successfully"));
+        await setUser(auth.uid, userData).then(r => alert("Updated Successfully"));
     }
 
     return (

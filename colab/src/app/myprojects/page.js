@@ -3,25 +3,24 @@
 import { AuthContext } from "@/src/components/AuthContext";
 import Feed from "@/src/components/Feed";
 import Login from "@/src/components/LogIn";
-import { getAllProjectsOfUser, getProject, getUser } from "@/src/firebase/firestore";
+import { getAllProjectsOfUser } from "@/src/firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 
 const MyProjects = () => {
-    const { user } = useContext(AuthContext);
+    const { auth, userData } = useContext(AuthContext);
     const [projs, setProjs] = useState(null);
 
     useEffect(() => {
-        if (!user) return;
-
-        const getProjs = async () => getAllProjectsOfUser(user.uid).then(r => setProjs(r));
+        if (!auth) return;
+        const getProjs = async () => getAllProjectsOfUser(auth.uid).then(r => setProjs(r));
         getProjs();
-    }, [user]);
-
-    if (!user) return <Login />
+    }, []);
+    
+    if (!auth) return <Login />;
 
     return (
         <div className="h-screen flex justify-between w-full">
-            <Feed user={user} content={projs} />
+            <Feed userData={{ ...userData, uid: auth.uid }} auth={auth} content={projs} />
         </div>
     )
 }

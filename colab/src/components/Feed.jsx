@@ -41,7 +41,7 @@ const ProjectDetailCard = ({ project, currentUser }) => {
     }
 
     return (
-        <div className="flex flex-col gap-4 items-center bg-[#6666] border-2 p-8 w-1/2 rounded-l-2xl rounded-r-md overflow-auto">
+        <>
             {/* <div className="flex w-full items-center justify-between">
                 <div className="flex gap-2">
                     <EyeIcon className={buttons.mini} />
@@ -57,23 +57,22 @@ const ProjectDetailCard = ({ project, currentUser }) => {
             <p className="text-md p-6 font-semibold border-b-2">{project.intro}</p>
             <p className="text-sm px-2 py-6 text-left font-semibold">{project.detail}</p>
 
-            <div className="flex flex-col gap-2 border-y-2 py-4 rounded-t-xl">
+            <div className="flex flex-col gap-2 text-center py-4 border-y-2 w-full">
                 <p className="text-2xl font-bold p-3">Skills</p>
-                <div className="flex flex-wrap gap-4 py-4">
+                <div className="flex flex-wrap justify-center gap-4 py-4">
                     {project.skills.map((s, i) => (
-                        <p className="px-8 py-3 border-2 shadow-xl rounded-xl hover:bg-white hover:text-black" key={i}>{s}</p>
+                        <p className="px-8 py-3 border-2 shadow-xl rounded-xl hover:bg-[#fffa] hover:text-black" key={i}>{s}</p>
                     ))}
                 </div>
             </div>
-            <button className={`mt-6 px-6 py-3 ${buttons.bulb}`} onClick={onProjectWork}>Work On Project</button>
-        </div>
+            <button className={`mt-6 px-6 py-3 border-2 ${buttons.bulb}`} onClick={onProjectWork}>Work On Project</button>
+        </>
     )
 }
 
-const Feed = ({ user, content }) => {
+const Feed = ({ userData, auth, content }) => {
     const [viewed, setViewed] = useState(0);
     const [searchPrmpt, setSearchPrmpt] = useState("");
-    const curUser = useContext(AuthContext);
 
     const startSearch = () => {
         setViewed(0);
@@ -87,21 +86,22 @@ const Feed = ({ user, content }) => {
     }
 
     const getAccountLink = () => {
-        if (curUser && curUser.uid === user?.uid)
+        if (!userData) return "/";
+        if (auth && auth.uid === userData.uid)
             return "/account";
-        return `/account/${user.uid}`;
+        return `/account/${userData.uid}`;
     }
 
     return (
         <div className="flex justify-end gap-6 p-8 w-full">
 
-            <div className="flex flex-col w-1/2 items-center p-8 border-2 rounded-2xl">
+            <div className="flex flex-col flex-1 tems-center p-8 border-2 rounded-2xl">
 
-                <div className="flex justify-between w-full gap-2 mb-12">
-                    <Link href={getAccountLink()} className="flex items-center gap-4">
+                <div className="flex justify-between w-full gap-8 mb-12">
+                    {<Link href={getAccountLink()} className="flex items-center gap-2">
                         <User className={buttons.icon} />
-                        <p className="w-max">{user?.displayName || "guestuser"}</p>
-                    </Link>
+                        <p className="w-max">{userData?.name || "guestuser"}</p>
+                    </Link>}
 
                     <div className="flex">
                         <input
@@ -116,11 +116,13 @@ const Feed = ({ user, content }) => {
                     </div>
                 </div>
 
-                {content && <div className="bg-[#fff3] flex flex-col w-full gap-4 p-6 rounded-l-2xl overflow-y-scroll">
+                {content && <div className="bg-[#fff3] flex flex-col w-full h-full gap-4 p-6 rounded-l-2xl overflow-y-scroll">
                     {content.map((p, i) => <FeedProjectCard project={p} key={i} onClick={() => setViewed(i)} className={viewed === i ? cards.active : cards.projectFeed} />)}
                 </div>}
             </div>
-            {content && <ProjectDetailCard project={content[getIndex()]} currentUser={curUser} />}
+            <div className="flex flex-col flex-1 gap-4 h-full items-center bg-[#6666] border-2 p-8 rounded-l-2xl rounded-r-md overflow-auto">
+                {content && <ProjectDetailCard project={content[getIndex()]} currentUser={auth} />}
+            </div>
         </div>
     )
 }
