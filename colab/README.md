@@ -4,6 +4,8 @@
 `   
     users {
         name : string,
+        email : string,
+        photourl : string,
         education : string,
         profession : string,
         experience : array (string),   :: format : "position; company; startDate

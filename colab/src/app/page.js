@@ -10,8 +10,6 @@ export default function HomePage() {
   const [projs, setProjs] = useState(null);
 
   useEffect(() => {
-    if (!user) return;
-
     const getProjs = async () => getFeedProjects().then(r => setProjs(r));
     getProjs();
   }, [user]);

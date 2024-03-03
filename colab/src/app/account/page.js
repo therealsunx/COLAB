@@ -10,22 +10,21 @@ import { useContext, useEffect, useState } from "react";
 
 export default function MyAccount() {
     const { user } = useContext(AuthContext);
-
-    const handleLogOut = e => {
-        e.preventDefault();
-        signOut();
-    }
-
     const [userData, setUserData] = useState(null);
+
 
     useEffect(() => {
         if (!user) return;
         const getUserData = async () => await getUser(user.uid).then(res => setUserData(res));
         getUserData();
-
     }, [user]);
 
-    if (!user || !userData) return <Login />;
+    const handleLogOut = e => {
+        e.preventDefault();
+        signOut();
+    }
+    if (!user) return <Login />;
+    if (!userData) return <p className="text-3xl text-center font-bold mt-[20%]">Loading...</p>
 
     const handleChange = e => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -36,15 +35,15 @@ export default function MyAccount() {
     }
 
     const handleSubmit = async () => {
-        await setUser(user.uid, userData);
+        await setUser(user.uid, userData).then(r => alert("Updated Successfully"));
     }
 
     return (
         <div className="w-full">
             <div className="flex justify-between items-center p-4 border-b-2">
                 <div className="flex items-center gap-4">
-                    <img src={user.photoURL} alt="profile" className="w-10 h-10 rounded-full bg-blue-300" />
-                    <p className="">{userData.name || ""}</p>
+                    <img src={userData.photoURL} alt="profile" className="size-20 rounded-full bg-blue-300" />
+                    <p className="">{userData?.name || ""}</p>
                 </div>
 
                 <button className={`${buttons.bulb} flex gap-4 px-6 py-2`} onClick={handleLogOut}>
@@ -58,7 +57,7 @@ export default function MyAccount() {
             <div className="rounded-xl px-6 py-2 text-sm space-y-4">
                 <div className="flex items-center justify-between w-full">
                     <p className="font-bold">Email</p>
-                    <p className="py-2">{user.email}</p>
+                    <p className="py-2">{userData?.email}</p>
                 </div>
 
                 <div className="flex items-center justify-between w-full">
@@ -66,7 +65,7 @@ export default function MyAccount() {
                     <input
                         name="name"
                         className="form-input"
-                        type="text" value={userData.name}
+                        type="text" value={userData?.name}
                         onChange={handleChange}
                     />
                 </div>

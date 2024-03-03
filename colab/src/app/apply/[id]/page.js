@@ -11,7 +11,7 @@ export default function ApplyPage() {
     return (
         <div className="flex flex-col items-center">
             <p className="text-xl font-semibold p-2">Apply for Involvement</p>
-            <p className="text-4xl font-bold">{project.title}</p>
+            <p className="text-4xl font-bold">{project.name}</p>
         </div>
     )
 }

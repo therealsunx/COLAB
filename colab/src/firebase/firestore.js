@@ -10,6 +10,8 @@ const tasks = collection(db, "tasks");
 
 export const defaultUserData = {
     name: "",
+    email: "",
+    photourl: "",
     education: "",
     experience: [],
     profession: "",

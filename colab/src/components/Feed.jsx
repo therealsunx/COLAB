@@ -28,13 +28,13 @@ const FeedProjectCard = ({ project, onClick, className }) => {
     )
 }
 
-const ProjectDetailCard = ({ project }) => {
+const ProjectDetailCard = ({ project, currentUser }) => {
 
     const onProjectWork = () => {
         let isInvolved = myProjects.find(v => v === project.id); // fetch if userid is present at the member list of the project
 
         if (isInvolved) {
-            window.location.href = "/" + project.id; // pass the project's id
+            window.location.href = "/" + project.id;
         } else {
             window.location.href = "/apply/" + project.id;
         }
@@ -73,6 +73,7 @@ const ProjectDetailCard = ({ project }) => {
 const Feed = ({ user, content }) => {
     const [viewed, setViewed] = useState(0);
     const [searchPrmpt, setSearchPrmpt] = useState("");
+    const curUser = useContext(AuthContext);
 
     const startSearch = () => {
         setViewed(0);
@@ -85,13 +86,19 @@ const Feed = ({ user, content }) => {
         return 0;
     }
 
+    const getAccountLink = () => {
+        if (curUser && curUser.uid === user?.uid)
+            return "/account";
+        return `/account/${user.uid}`;
+    }
+
     return (
         <div className="flex justify-end gap-6 p-8 w-full">
 
             <div className="flex flex-col w-1/2 items-center p-8 border-2 rounded-2xl">
 
                 <div className="flex justify-between w-full gap-2 mb-12">
-                    <Link href="/account" className="flex items-center gap-4">
+                    <Link href={getAccountLink()} className="flex items-center gap-4">
                         <User className={buttons.icon} />
                         <p className="w-max">{user?.displayName || "guestuser"}</p>
                     </Link>
@@ -113,10 +120,7 @@ const Feed = ({ user, content }) => {
                     {content.map((p, i) => <FeedProjectCard project={p} key={i} onClick={() => setViewed(i)} className={viewed === i ? cards.active : cards.projectFeed} />)}
                 </div>}
             </div>
-
-            <Suspense fallback={<p>No Projects</p>}>
-                {content && <ProjectDetailCard project={content[getIndex()]} />}
-            </Suspense>
+            {content && <ProjectDetailCard project={content[getIndex()]} currentUser={curUser} />}
         </div>
     )
 }

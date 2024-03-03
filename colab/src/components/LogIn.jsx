@@ -11,7 +11,7 @@ export default function Login() {
                 await getUser(res.user.uid).then(
                     async r => {
                         if (r) return;
-                        await setUser(res.user.uid, { ...defaultUserData, name: res.user.displayName });
+                        await setUser(res.user.uid, { ...defaultUserData, name: res.user.displayName, email: res.user.email, photourl: res.user.photoURL });
                     }
                 );
             }
