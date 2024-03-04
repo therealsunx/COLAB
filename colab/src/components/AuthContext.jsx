@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(async authUser => {
-            if (auth && auth.uid === authUser.uid) return;
+            if (auth?.uid === authUser?.uid) return;
             setAuth(authUser);
             await getUser(authUser.uid).then(r => setUserData(r));
         });

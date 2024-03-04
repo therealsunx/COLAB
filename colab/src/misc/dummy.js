@@ -19,9 +19,7 @@ export const projects = [
     description: "A mobile app for managing personal budgets and tracking expenses with data visualization.",
     readme: `# Expense Tracker App
       The Expense Tracker App is a mobile-first solution designed to help individuals manage their personal finances. The app allows users to record their daily expenses, categorize them into predefined categories like food, transport, and utilities, and set monthly budget limits. A key feature of the app is its data visualization component, which presents the user's spending patterns in an easily digestible format, such as pie charts and bar graphs.
-      
       The app includes functionalities like setting reminders for bill payments, generating monthly expense reports, and offering insights into spending habits. Users can also compare their spending month-over-month and identify areas where they can potentially save money. Additionally, the app supports exporting financial data, which can be used for further analysis or record-keeping.
-      
       This project serves as an excellent entry into the world of mobile application development. It offers hands-on experience with React Native, allowing for cross-platform mobile app development. Students will learn about state management using Redux, dealing with local storage, and implementing push notifications. The app's development will also involve understanding and applying concepts of responsive design and user-centric interfaces.`,
     skills: "Mobile App Development; React Native; State Management (Redux); Local Storage",
     impressions: 650,
@@ -34,9 +32,7 @@ export const projects = [
     description: "A classic 2D platformer game with multiple levels, obstacles, and score tracking.",
     readme: `# 2D Platformer Game
       This 2D Platformer Game is an exciting project for students interested in game development. The game is set in a vibrant world where players control a character navigating through levels filled with obstacles, enemies, and collectibles. Each level presents new challenges and environments, requiring players to demonstrate skill and strategy to advance.
-      
       The game incorporates fundamental game development concepts such as 2D graphics, physics-based movements, collision detection, and an engaging scoring system. Players earn points by collecting items and completing levels, with bonus points awarded for completing levels quickly or finding hidden items.
-      
       Developing this game offers an extensive learning experience in using Unity and C#. Students will explore the principles of game design, character animation, level design, and sound integration. They'll also learn to fine-tune the player's experience by balancing difficulty levels and ensuring smooth gameplay. Furthermore, students can experiment with adding additional features like power-ups, leaderboards, and player customization to enhance the game's replay value.`,
     skills: "Game Development; Unity; C# Programming; 2D Graphics; Physics Simulation",
     impressions: 900,
@@ -88,6 +84,13 @@ export const tasks = [
     description: "Use github api to get the project data from github, validate the repo, manage collaboraters, etc",
     completed: false
   },
+  {
+    title : "update documentation",
+    description : "Update the project documentation and prepare for revision on next iteration."
+  }
+]
+
+export const done = [
   {
     title: "add whiteboard in the project",
     description: "Add real time collaborative whiteboard feature for each project in co-lab.",
