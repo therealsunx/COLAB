@@ -8,6 +8,7 @@ import { tabs } from "@/src/misc/constants";
 import { buttons } from "@/src/misc/styles";
 import { useContext, useState } from "react";
 import InvitationsPage from "@/src/components/InvitationsPage";
+import { signOut } from "@/src/firebase/auth";
 
 export default function MyAccount() {
     const [tab, setTab] = useState(0);
