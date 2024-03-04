@@ -4,20 +4,12 @@ import { PlusCircleIcon, TrashIcon } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { buttons } from '../misc/styles';
 import { AuthContext } from './AuthContext';
-import { addProject, setProject, updateUser } from '../firebase/firestore';
-import { projects } from '../misc/dummy';
+import { addProject, defaultProjectData, updateUser } from '../firebase/firestore';
 import { arrayUnion } from 'firebase/firestore';
 
 const ProjectForm = () => {
     const { auth } = useContext(AuthContext);
-    const [formData, setFormData] = useState({
-        name: '',
-        intro: '',
-        detail: '',
-        skills: [],
-        members: [],
-        manager: ''
-    });
+    const [formData, setFormData] = useState(defaultProjectData);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -80,15 +72,8 @@ const ProjectForm = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         let fd = { ...formData, manager: auth.uid, members: [auth.uid] };
-        await addProject(fd).then(async r => { updateUser(auth.uid, { projects: arrayUnion(r) }); alert("Project created successfully !") });
-        setFormData({
-            name: '',
-            intro: '',
-            detail: '',
-            skills: [],
-            members: [],
-            manager: ''
-        });
+        await addProject(fd).then(async r => await updateUser(auth.uid, { projects: arrayUnion(r) }).then(u => window.location.href = `/${r}`));
+        setFormData(defaultProjectData);
     };
 
     return (

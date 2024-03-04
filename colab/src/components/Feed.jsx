@@ -1,10 +1,9 @@
 'use client';
 
-import { Suspense, useContext, useState } from "react";
-import { ChevronsUp, EyeIcon, Search, User } from "lucide-react";
+import { useState } from "react";
+import { Search, User } from "lucide-react";
 import { buttons, cards } from "../misc/styles";
-import { myProjects } from "../misc/dummy";
-import { AuthContext } from "./AuthContext";
+
 import Link from "next/link";
 
 const FeedProjectCard = ({ project, onClick, className }) => {
@@ -120,7 +119,7 @@ const Feed = ({ userData, auth, content }) => {
                 </div>
 
                 {content && <div className="bg-[#fff3] flex flex-col w-full h-full gap-4 p-6 rounded-l-2xl overflow-y-scroll">
-                    {content.map((p, i) => <FeedProjectCard project={p} key={i} onClick={() => setViewed(i)} className={viewed === i ? cards.active : cards.projectFeed} />)}
+                    {content.map((p, i) => p && <FeedProjectCard project={p} key={i} onClick={() => setViewed(i)} className={viewed === i ? cards.active : cards.projectFeed} />)}
                 </div>}
             </div>
             <div className="flex flex-col flex-1 gap-4 h-full items-center bg-[#6666] border-2 p-8 rounded-l-2xl rounded-r-md overflow-auto">

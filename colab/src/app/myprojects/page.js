@@ -15,7 +15,7 @@ const MyProjects = () => {
         const getProjs = async () => getAllProjectsOfUser(auth.uid).then(r => setProjs(r));
         getProjs();
     }, []);
-    
+
     if (!auth) return <Login />;
 
     return (
