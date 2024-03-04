@@ -13,7 +13,7 @@ export default function InvitationsPage({ userData, setUserData }) {
     const acceptProj = async (id) => {
         await updateLinks(id, { invites: arrayRemove(userData.uid) });
         await updateProject(id, { members: arrayUnion(userData.uid) });
-        await updateUser(userData.uid, { invites: arrayRemove(id) }).then(r => setUserData({ ...userData, invites: invites.filter(x => x != id) }));
+        await updateUser(userData.uid, { invites: arrayRemove(id), projects: arrayUnion(id) }).then(r => setUserData({ ...userData, invites: invites.filter(x => x != id) }));
     }
 
     const rejectProj = async (id) => {
