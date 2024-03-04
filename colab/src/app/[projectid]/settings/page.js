@@ -10,7 +10,7 @@ export default function Settings() {
   const { auth } = useContext(AuthContext);
   const { project } = useProject();
 
-//   console.log("project", project);
+  //   console.log("project", project);
 
   return (
     <>

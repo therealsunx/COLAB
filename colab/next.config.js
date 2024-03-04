@@ -8,7 +8,9 @@ const nextConfig = {
         STORAGE_BUCKET: process.env.STORAGE_BUCKET,
         STORAGE_BUCKET: process.env.STORAGE_BUCKET,
         APPID: process.env.APPID,
-        MEASUREMENT_ID: process.env.MEASUREMENT_ID
+        MEASUREMENT_ID: process.env.MEASUREMENT_ID,
+        LAN_HOST: process.env.LAN_HOST,
+        BOARD_PORT: process.env.BOARD_PORT
     }
 }
 
