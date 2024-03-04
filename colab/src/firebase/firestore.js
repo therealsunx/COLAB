@@ -81,7 +81,7 @@ export const getProject = async (id) => {
 export const getFeedProjects = async () => {
     let data = [];
     const snap = await getDocs(projects);
-    snap.forEach(s => data.push(s.data()));
+    snap.forEach(s => data.push({ ...s.data(), id: s.ref.id }));
     return data;
 }
 

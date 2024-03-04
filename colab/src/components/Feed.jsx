@@ -31,12 +31,15 @@ const FeedProjectCard = ({ project, onClick, className }) => {
 const ProjectDetailCard = ({ project, currentUser }) => {
 
     const onProjectWork = () => {
-        let isInvolved = myProjects.find(v => v === project.id); // fetch if userid is present at the member list of the project
-
-        if (isInvolved) {
-            window.location.href = "/" + project.id;
+        const involved = project.members.find(x => x === currentUser.uid);
+        if (involved) {
+            console.log(project);
+            window.location.href = `/${project.id}`;
         } else {
-            window.location.href = "/apply/" + project.id;
+            // fetch the applicants data of the project
+            // check if user id is in applicants list
+            // if it is, alert (decision pending)
+            // else alert(successfully applied)
         }
     }
 
