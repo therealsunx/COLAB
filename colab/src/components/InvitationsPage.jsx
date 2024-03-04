@@ -5,6 +5,7 @@ import Feed from "./Feed";
 import { buttons } from "../misc/styles";
 import { getAllProjectsOfUser, getMultipleProjects, updateLinks, updateProject, updateUser } from "../firebase/firestore";
 import { arrayRemove, arrayUnion } from "firebase/firestore";
+import { projects } from "../misc/dummy";
 
 export default function InvitationsPage({ userData, setUserData }) {
 
@@ -13,12 +14,12 @@ export default function InvitationsPage({ userData, setUserData }) {
     const acceptProj = async (id) => {
         await updateLinks(id, { invites: arrayRemove(userData.uid) });
         await updateProject(id, { members: arrayUnion(userData.uid) });
-        await updateUser(userData.uid, { invites: arrayRemove(id), projects: arrayUnion(id) }).then(r => setUserData({ ...userData, invites: invites.filter(x => x != id) }));
+        await updateUser(userData.uid, { invites: arrayRemove(id), projects: arrayUnion(id) }).then(r => setUserData({ ...userData, projects: [...userData.projects, id], invites: userData.invites.filter(x => x != id) }));
     }
 
     const rejectProj = async (id) => {
         await updateLinks(id, { invites: arrayRemove(userData.id) });
-        await updateUser(userData.uid, { invites: arrayRemove(id) }).then(r => setUserData({ ...userData, invites: invites.filter(x => x != id) }));
+        await updateUser(userData.uid, { invites: arrayRemove(id) }).then(r => setUserData({ ...userData, invites: userData.invites.filter(x => x != id) }));
     }
 
     useEffect(() => {
