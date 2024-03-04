@@ -13,23 +13,14 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const router = useRouter();
 
-  
- useEffect(() => {
-    const unsubscribe = onAuthStateChanged(async (authUser) => {
-      // Check if authUser is not null before accessing its properties
-      if (authUser) {
-        if (auth && auth.uid === authUser.uid) return;
-        setAuth(authUser);
-        const userData = await getUser(authUser.uid);
-        setUserData(userData);
-      } else {
-        // Handle the case where authUser is null (e.g., user is not authenticated)
-        setAuth(null);
-        setUserData(null);
-      }
-    });
-    return () => unsubscribe();
- }, []);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(async authUser => {
+            if (auth?.uid === authUser?.uid) return;
+            setAuth(authUser);
+            await getUser(authUser.uid).then(r => setUserData(r));
+        });
+        return () => unsubscribe();
+    }, []);
 
   useEffect(() => {
     onAuthStateChanged((authUser) => {
