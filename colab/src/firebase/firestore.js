@@ -19,6 +19,15 @@ export const defaultUserData = {
     skills: []
 };
 
+export const defaultProjectData = {
+    name: "",
+    intro: "",
+    detail: "",
+    manager: "",
+    members: [],
+    skills: [],
+}
+
 export const defaultLinkData = {
     boards: [],
     repos: [],
@@ -33,7 +42,7 @@ export const setUser = async (id, userdata) => {
 export const getUser = async (id) => {
     const ref = doc(db, "users", id);
     const snap = await getDoc(ref);
-    if (snap.exists()) return snap.data();
+    if (snap.exists()) return { uid: id, ...snap.data() };
     else return null;
 }
 
@@ -64,7 +73,6 @@ export const getProjectData = async (id) => {
     // const manager = members.find(x => x.id === project.manager);
 
     return {
-        id: id,
         ...project,
         members: members,
         // manager: manager
@@ -74,14 +82,14 @@ export const getProjectData = async (id) => {
 export const getProject = async (id) => {
     const ref = doc(db, "projects", id);
     const snap = await getDoc(ref);
-    if (snap.exists()) return snap.data();
+    if (snap.exists()) return { id: id, ...snap.data() };
     else return null;
 }
 
 export const getFeedProjects = async () => {
     let data = [];
     const snap = await getDocs(projects);
-    snap.forEach(s => data.push(s.data()));
+    snap.forEach(s => data.push({ ...s.data(), id: s.ref.id }));
     return data;
 }
 
@@ -113,7 +121,7 @@ export const setTasks = async (id, data) => {
 export const getTasks = async (id) => {
     const ref = doc(db, "tasks", id);
     const snap = await getDoc(ref);
-    if (snap.exists()) return snap.data();
+    if (snap.exists()) return { id: id, ...snap.data() };
     else return null;
 }
 

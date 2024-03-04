@@ -16,7 +16,7 @@ export default function HomePage() {
 
   return (
     <div className="h-screen flex justify-between">
-      <Feed userData={{ ...userData, uid: auth?.uid }} auth={auth} content={projs} />
+      <Feed userData={userData} auth={auth} content={projs} />
     </div>
   )
 }
