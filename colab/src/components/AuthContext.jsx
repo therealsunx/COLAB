@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { createContext } from "react";
 import { onAuthStateChanged } from "../firebase/auth";
@@ -9,9 +9,9 @@ import { getUser } from "../firebase/firestore";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const router = useRouter();
+  const [auth, setAuth] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const router = useRouter();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(async authUser => {
@@ -25,20 +25,20 @@ export const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    useEffect(() => {
-        onAuthStateChanged(authUser => {
-            if (auth === undefined) return;
-            if (auth?.email !== authUser?.email) {
-                router.refresh();
-            }
-        });
-    }, [auth]);
+  useEffect(() => {
+    onAuthStateChanged((authUser) => {
+      if (auth === undefined) return;
+      if (auth?.email !== authUser?.email) {
+        router.refresh();
+      }
+    });
+  }, [auth]);
 
-    // console.log(user?.displayName || "null");
+  // console.log(user?.displayName || "null");
 
-    return (
-        <AuthContext.Provider value={{ auth, userData, setUserData }}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  return (
+    <AuthContext.Provider value={{ auth, userData, setUserData }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

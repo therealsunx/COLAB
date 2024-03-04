@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Search, User } from "lucide-react";
 import { buttons, cards } from "../misc/styles";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { db } from "../firebase/firebase";
 
 import Link from "next/link";
 
@@ -28,33 +30,44 @@ export const FeedProjectCard = ({ project, onClick, className }) => {
 }
 
 const ProjectDetailCard = ({ project, currentUser }) => {
+    const onProjectWork = async () => {
+        if (!currentUser) {
+            window.location.href = "/account";
+            return;
+        }
+        
+        const projectRef = doc(db, "projects", project.id);
+        const linksRef = doc(db, "links", project.id);
 
-    const onProjectWork = () => {
-        if (!currentUser) window.location.href = "/account";
-        const involved = project.members.find(x => x === currentUser.uid);
-        if (involved) {
-            console.log(project);
-            window.location.href = `/${project.id}`;
+        const projectDoc = await getDoc(projectRef);
+        const linksDoc = await getDoc(linksRef);
+
+        if (projectDoc.exists() && linksDoc.exists()) {
+            const projectData = projectDoc.data();
+            const linksData = linksDoc.data();
+
+            const involved = projectData.members.find(x => x === currentUser.uid);
+            if (involved) {
+                window.location.href = `/${project.id}`;
+            } else {
+                const userApplied = linksData.applicants.includes(currentUser.uid);
+                if (userApplied) {
+                    alert('Decision pending');
+                } else {
+                    // Apply the user to the project
+                    await updateDoc(linksRef, {
+                        applicants: arrayUnion(currentUser.uid)
+                    });
+                    alert('Successfully applied');
+                }
+            }
         } else {
-            // fetch the applicants data of the project
-            // check if user id is in applicants list
-            // if it is, alert (decision pending)
-            // else alert(successfully applied)
+            console.error("Project or links document does not exist");
         }
     }
 
     return (
         <>
-            {/* <div className="flex w-full items-center justify-between">
-                <div className="flex gap-2">
-                    <EyeIcon className={buttons.mini} />
-                    {project?.impressions || "___"}
-                </div>
-                <div className="flex gap-2">
-                    {project?.upvotes || "___"}
-                    <ChevronsUp className={buttons.mini} />
-                </div>
-            </div> */}
 
             <p className="text-4xl p-6 font-bold border-b-2">{project.name}</p>
             <p className="text-md p-6 font-semibold border-b-2">{project.intro}</p>
