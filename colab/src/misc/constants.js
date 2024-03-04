@@ -43,4 +43,9 @@ export const pages = {
     }
 };
 
+export const tabs = [
+    "Info",
+    "Invitations"
+];
+
 //colab_server_1234

@@ -6,7 +6,7 @@ import { buttons, cards } from "../misc/styles";
 
 import Link from "next/link";
 
-const FeedProjectCard = ({ project, onClick, className }) => {
+export const FeedProjectCard = ({ project, onClick, className }) => {
 
     return (
         <div className={`flex flex-col items-center ${className}`} onClick={onClick}>
@@ -30,6 +30,7 @@ const FeedProjectCard = ({ project, onClick, className }) => {
 const ProjectDetailCard = ({ project, currentUser }) => {
 
     const onProjectWork = () => {
+        if (!currentUser) window.location.href = "/account";
         const involved = project.members.find(x => x === currentUser.uid);
         if (involved) {
             console.log(project);
@@ -82,7 +83,7 @@ const Feed = ({ userData, auth, content }) => {
     }
 
     const getIndex = () => {
-        if (viewed < content?.length) return viewed;
+        if (viewed === 0 || viewed < content?.length) return viewed;
         setViewed(0);
         return 0;
     }
@@ -123,7 +124,7 @@ const Feed = ({ userData, auth, content }) => {
                 </div>}
             </div>
             <div className="flex flex-col flex-1 gap-4 h-full items-center bg-[#6666] border-2 p-8 rounded-l-2xl rounded-r-md overflow-auto">
-                {content && <ProjectDetailCard project={content[getIndex()]} currentUser={auth} />}
+                {content && content[getIndex()] && <ProjectDetailCard project={content[getIndex()]} currentUser={auth} />}
             </div>
         </div>
     )

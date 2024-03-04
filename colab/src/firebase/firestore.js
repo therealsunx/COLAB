@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { collection, doc, getDoc, setDoc, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, getDocs, addDoc, updateDoc, query, where, limit, arrayUnion } from "firebase/firestore";
 
 
 const users = collection(db, "users");
@@ -16,7 +16,8 @@ export const defaultUserData = {
     experience: [],
     profession: "",
     projects: [],
-    skills: []
+    skills: [],
+    invites: []
 };
 
 export const defaultProjectData = {
@@ -32,7 +33,8 @@ export const defaultLinkData = {
     boards: [],
     repos: [],
     tasks: [],
-    applicants: []
+    applicants: [],
+    invites: []
 }
 
 export const setUser = async (id, userdata) => {
@@ -46,6 +48,15 @@ export const getUser = async (id) => {
     else return null;
 }
 
+export const getUserByEmail = async (email) => {
+    const q = query(users, where("email", "==", email), limit(1));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+        return { ...snap.docs[0].data(), uid: snap.docs[0].id };
+    }
+    return null;
+}
+
 export const updateUser = async (id, data) => {
     const ref = doc(db, "users", id);
     await updateDoc(ref, data);
@@ -55,7 +66,11 @@ export const getAllProjectsOfUser = async (id) => {
     const user = await getUser(id);
     if (!user) return null;
 
-    const prms = user.projects.map(async pid => {
+    return await getMultipleProjects(user.projects);
+}
+
+export const getMultipleProjects = async (ids) => {
+    const prms = ids.map(async pid => {
         return await getProjectData(pid);
     })
     return await Promise.all(prms);
@@ -88,23 +103,46 @@ export const getProject = async (id) => {
 
 export const getFeedProjects = async () => {
     let data = [];
-    const snap = await getDocs(projects);
+    const q = query(projects, limit(10)); // Limiting to 10 documents
+    const snap = await getDocs(q);
     snap.forEach(s => data.push({ ...s.data(), id: s.ref.id }));
     return data;
 }
+
 
 export const setProject = async (id, data) => {
     await setDoc(doc(projects, id), data);
 }
 
-export const addProject = async (data) => {
-    const ref = await addDoc(collection(db, "projects"), data);
-    await setLinks(ref.id, defaultLinkData);
+export const createNewProject = async (data) => {
+    const _invs = await Promise.all(data.invites.map(async i => await getUserByEmail(i)));
+    const invs = _invs.filter(x => x && x.uid !== data.manager).map(x => x.uid);
+
+    const ref = await addDoc(collection(db, "projects"), {
+        name: data.name,
+        intro: data.intro,
+        detail: data.detail,
+        manager: data.manager,
+        members: data.members,
+        skills: data.skills
+    });
+    await setLinks(ref.id, { ...defaultLinkData, invites: invs });
+    invs.forEach(i => updateUser(i, { invites: arrayUnion(ref.id) }));
     return ref.id;
+}
+
+export const updateProject = async (id, data) => {
+    const ref = doc(db, "projects", id);
+    await updateDoc(ref, data);
 }
 
 export const setLinks = async (id, data) => {
     await setDoc(doc(links, id), data);
+}
+
+export const updateLinks = async (id, data) => {
+    const ref = doc(db, "links", id);
+    await updateDoc(ref, data);
 }
 
 export const getLinks = async (id) => {

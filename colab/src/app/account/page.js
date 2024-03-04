@@ -1,36 +1,35 @@
 'use client';
 
+import AccountInfo from "@/src/components/AccountInfo";
+import { LogOutIcon, UserRound } from "lucide-react";
 import { AuthContext } from "@/src/components/AuthContext";
 import Login from "@/src/components/LogIn";
-import { signOut } from "@/src/firebase/auth";
-import { setUser } from "@/src/firebase/firestore";
+import { tabs } from "@/src/misc/constants";
 import { buttons } from "@/src/misc/styles";
-import { LogOutIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import InvitationsPage from "@/src/components/InvitationsPage";
 
 export default function MyAccount() {
+    const [tab, setTab] = useState(0);
     const { userData, auth, setUserData } = useContext(AuthContext);
-    const router = useRouter();
 
-    const handleLogOut = async e => {
-        e.preventDefault();
-        await signOut().then(r => router.refresh());
-    };
+
     if (!auth) return <Login />;
     if (!userData) return <p className="text-3xl text-center font-bold mt-[20%]">Loading...</p>;
 
-    const handleChange = e => {
-        setUserData({ ...userData, [e.target.name]: e.target.value });
+    const getContent = () => {
+        switch (tab) {
+            case 1: return <InvitationsPage userData={userData} setUserData={setUserData} />;
+            case 0:
+            default:
+                return <AccountInfo userData={userData} setUserData={setUserData} />
+        }
     }
 
-    const handleList = e => {
-        setUserData({ ...userData, [e.target.name]: e.target.value.split(',') });
-    }
-
-    const handleSubmit = async () => {
-        await setUser(auth.uid, userData).then(r => alert("Updated Successfully"));
-    }
+    const handleLogOut = async e => {
+        e.preventDefault();
+        await signOut();
+    };
 
     return (
         <div className="w-full">
@@ -45,97 +44,12 @@ export default function MyAccount() {
                     <LogOutIcon />
                 </button>
             </div>
-
-            <p className="font-bold px-6 py-2 text-md mt-6">Personal Information</p>
-
-            <div className="rounded-xl px-6 py-2 text-sm space-y-4">
-                <div className="flex items-center justify-between w-full">
-                    <p className="font-bold">Email</p>
-                    <p className="py-2">{userData?.email}</p>
-                </div>
-
-                <div className="flex items-center justify-between w-full">
-                    <p className="flex-1 font-bold">Name</p>
-                    <input
-                        name="name"
-                        className="form-input"
-                        type="text" value={userData?.name}
-                        onChange={handleChange}
-                    />
-                </div>
+            <div className="flex gap-4 bg-[#4448] p-2">
+                {tabs.map((t, i) => (
+                    <button key={i} onClick={() => setTab(i)} className={`${buttons.bulb} font-bold p-2 flex-1 ${tab === i && "bg-white text-black"}`} >{t}</button>
+                ))}
             </div>
-
-            <p className="font-bold px-6 py-2 text-md mt-4">Technical Information</p>
-
-            <div className="rounded-xl px-6 py-2 text-sm gap-4 flex flex-col">
-                <div className="flex items-center justify-between w-full">
-                    <p className="flex-1 font-bold">Education</p>
-                    <input
-                        name="education"
-                        className="form-input"
-                        type="text" value={userData.education}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="flex items-center justify-between w-full">
-                    <p className="flex-1 font-bold">Profession</p>
-                    <input
-                        name="profession"
-                        className="form-input"
-                        type="text" value={userData.profession}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="flex items-center justify-between w-full">
-                    <p className="flex-1 font-bold">Experience</p>
-                    <div className="form-div space-y-4">
-                        <div className="flex flex-col gap-4">
-                            {userData.experience.map((e, _) => {
-                                const exp = e.split(";");
-                                return (
-                                    <div key={_} className="flex gap-2">
-                                        {exp.map((d, __) => (
-                                            <p className="list-buttn flex-grow" key={__}>{d}</p>
-                                        ))}
-                                    </div>
-                                )
-                            })}
-                        </div>
-                        <textarea
-                            name="experience"
-                            className="form-input w-full text-[0.8rem]"
-                            type="text" value={userData.experience}
-                            onChange={handleList}
-                            placeholder="position1 ; company1 ; startDate1 , position2 ; company2 ; startDate2"
-                        />
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between w-full">
-                    <p className="flex-1 font-bold">Skills</p>
-                    <div className="form-div space-y-4">
-                        <div className="flex flex-wrap gap-4">
-                            {userData.skills.map((e, _) => {
-                                return (
-                                    <p className="list-buttn" key={_}>{e}</p>
-                                )
-                            })}
-                        </div>
-                        <textarea
-                            name="skills"
-                            className="form-input w-full text-[0.8rem]"
-                            type="text" value={userData.skills}
-                            onChange={handleList}
-                            placeholder="skill1, skills2, skill3"
-                        />
-                    </div>
-                </div>
-
-                <button className={`${buttons.primary} w-fit font-bold px-10 py-4`} onClick={handleSubmit}>Update</button>
-            </div>
-
+            {getContent()}
         </div>
     )
 }

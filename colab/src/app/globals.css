@@ -59,7 +59,7 @@ body {
 .form-input {
   flex: 1;
   padding: 0.7rem 1rem;
-  text-align: right;
+  /* text-align: left; */
   border-radius: 1rem;
   background-color: #4449;
 }

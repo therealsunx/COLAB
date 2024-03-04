@@ -4,12 +4,11 @@ import { PlusCircleIcon, TrashIcon } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { buttons } from '../misc/styles';
 import { AuthContext } from './AuthContext';
-import { addProject, defaultProjectData, updateUser } from '../firebase/firestore';
-import { arrayUnion } from 'firebase/firestore';
+import { createNewProject, defaultProjectData, getUserByEmail, updateUser } from '../firebase/firestore';
 
 const ProjectForm = () => {
     const { auth } = useContext(AuthContext);
-    const [formData, setFormData] = useState(defaultProjectData);
+    const [formData, setFormData] = useState({ ...defaultProjectData, invites: [] });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,36 +43,42 @@ const ProjectForm = () => {
         }));
     };
 
-    const handleMemberChange = (e, index) => {
-        const newMembers = [...formData.members];
-        newMembers[index] = e.target.value;
+    const handleInvitesChange = (e, index) => {
+        const ninvite = [...formData.invites];
+        ninvite[index] = e.target.value.trim();
         setFormData(prevState => ({
             ...prevState,
-            members: newMembers
+            invites: ninvite
         }));
     };
 
-    const handleAddMember = () => {
+    const handleAddInvite = () => {
         setFormData(prevState => ({
             ...prevState,
-            members: [...prevState.members, '']
+            invites: [...prevState.invites, '']
         }));
     };
 
-    const handleRemoveMember = (index) => {
-        const newMembers = [...formData.members];
-        newMembers.splice(index, 1);
+    const handleRemoveInvite = (index) => {
+        const invites = [...formData.invites];
+        invites.splice(index, 1);
         setFormData(prevState => ({
             ...prevState,
-            members: newMembers
+            invites: invites
         }));
     };
+
+    // const handleEmailCheck = async e => {
+    //     e.preventDefault();
+    //     await getUserByEmail(formData.invites[0]).then(r => console.log(r));
+    // }
 
     const handleSubmit = async e => {
         e.preventDefault();
         let fd = { ...formData, manager: auth.uid, members: [auth.uid] };
-        await addProject(fd).then(async r => await updateUser(auth.uid, { projects: arrayUnion(r) }).then(u => window.location.href = `/${r}`));
-        setFormData(defaultProjectData);
+        await createNewProject(fd)
+            .then(u => window.location.href = `/${u}`);
+        setFormData({ ...defaultProjectData, invites: [] });
     };
 
     return (
@@ -142,25 +147,26 @@ const ProjectForm = () => {
                 </div>
             </div>
 
-            {/* Members */}
             <div className="form-div2">
                 <label className="block text-sm font-bold mb-2">
-                    Add other Members
+                    Invite Others to Project
                 </label>
                 <div className='flex-grow flex flex-wrap gap-4'>
-                    {formData.members.map((member, index) => (
-                        <div key={index} className="flex gap-4 items-center">
+                    {formData.invites.map((invite, index) => (
+                        <div key={index} className="relative flex items-center">
                             <input
-                                type="text"
-                                value={member}
-                                onChange={(e) => handleMemberChange(e, index)}
+                                type="email"
+                                value={invite}
+                                onChange={(e) => handleInvitesChange(e, index)}
                                 className="form-input"
+                                placeholder='johndoe@example.com'
                                 required
                             />
-                            <TrashIcon onClick={() => handleRemoveMember(index)} className="w-10 h-10 p-2 hover:bg-[#a00] text-white rounded-full" />
+                            <TrashIcon onClick={() => handleRemoveInvite(index)} className="absolute right-0 size-8 p-2 hover:stroke-[#f00] text-white rounded-full" />
                         </div>
                     ))}
-                    <PlusCircleIcon onClick={handleAddMember} className="self-end w-10 h-10 p-2 rounded-full hover:bg-primary" />
+                    <PlusCircleIcon onClick={handleAddInvite} className="self-end size-10 p-2 rounded-full hover:stroke-secondary" />
+                    {/* <button onClick={handleEmailCheck}>fetch</button> */}
                 </div>
             </div>
 
