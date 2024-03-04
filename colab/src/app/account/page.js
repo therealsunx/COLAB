@@ -5,7 +5,7 @@ import Login from "@/src/components/LogIn";
 import { signOut } from "@/src/firebase/auth";
 import { setUser } from "@/src/firebase/firestore";
 import { buttons } from "@/src/misc/styles";
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 

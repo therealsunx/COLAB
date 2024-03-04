@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 
 const MyProjects = () => {
     const { auth, userData } = useContext(AuthContext);
-    const [projs, setProjs] = useState(null);
+    const [projs, setProjs] = useState([]);
 
     useEffect(() => {
         if (!auth) return;
