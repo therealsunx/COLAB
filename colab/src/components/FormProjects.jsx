@@ -9,6 +9,7 @@ import { createNewProject, defaultProjectData, getUserByEmail, updateUser } from
 const ProjectForm = () => {
     const { auth } = useContext(AuthContext);
     const [formData, setFormData] = useState({ ...defaultProjectData, invites: [] });
+    const [hold, setHold] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -74,10 +75,14 @@ const ProjectForm = () => {
     // }
 
     const handleSubmit = async e => {
+        setHold(true);
         e.preventDefault();
         let fd = { ...formData, manager: auth.uid, members: [auth.uid] };
         await createNewProject(fd)
-            .then(u => window.location.href = `/${u}`);
+            .then(u => {
+                window.location.href = `/${u}`;
+                setHold(false);
+            });
         setFormData({ ...defaultProjectData, invites: [] });
     };
 
@@ -170,8 +175,8 @@ const ProjectForm = () => {
                 </div>
             </div>
 
-            <button type="submit" className={`${buttons.bulb} px-8 py-2`}>
-                Submit
+            <button type="submit" disabled={hold} className={`${buttons.bulb} px-8 py-2`}>
+                {hold ? "Submitting" : "Submit"}
             </button>
         </form>
     );

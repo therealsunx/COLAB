@@ -33,10 +33,6 @@ export const pages = {
         link: "/[id]/tasks",
         icon: <ClipboardListIcon />
     },
-    References: {
-        link: "/[id]/refs",
-        icon: <LibrarySquareIcon />
-    },
     Settings: {
         link: "/[id]/settings",
         icon: <SettingsIcon />

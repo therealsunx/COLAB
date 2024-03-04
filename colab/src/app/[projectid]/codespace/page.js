@@ -17,7 +17,7 @@ export default function CodeSpace() {
                     links?.repos.map((r, i) => {
                         const l = r.split(';');
                         return (
-                            <Link key={i} href={`https://vscode.dev/${r}`} className={`px-6 py-2 ${buttons.bulb} flex items-center justify-between border-2`} target="_blank">
+                            <Link key={i} href={`https://vscode.dev/${l[1]}`} className={`px-6 py-2 ${buttons.bulb} flex items-center justify-between border-2`} target="_blank">
                                 <div className="space-y-2">
                                     <p className="font-bold">{l[0]}</p>
                                     <p className="text-sm">{l[1]}</p>

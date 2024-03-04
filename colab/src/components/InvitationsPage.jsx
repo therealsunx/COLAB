@@ -1,20 +1,21 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import Feed from "./Feed";
 import { buttons } from "../misc/styles";
-import { getAllProjectsOfUser, getMultipleProjects, updateLinks, updateProject, updateUser } from "../firebase/firestore";
+import { getMultipleProjects, updateLinks, updateProject, updateUser } from "../firebase/firestore";
 import { arrayRemove, arrayUnion } from "firebase/firestore";
-import { projects } from "../misc/dummy";
+import { useRouter } from "next/navigation";
 
 export default function InvitationsPage({ userData, setUserData }) {
 
     const [projs, setProjs] = useState(null);
+    const router = useRouter();
 
     const acceptProj = async (id) => {
         await updateLinks(id, { invites: arrayRemove(userData.uid) });
         await updateProject(id, { members: arrayUnion(userData.uid) });
-        await updateUser(userData.uid, { invites: arrayRemove(id), projects: arrayUnion(id) }).then(r => setUserData({ ...userData, projects: [...userData.projects, id], invites: userData.invites.filter(x => x != id) }));
+        await updateUser(userData.uid, { invites: arrayRemove(id), projects: arrayUnion(id) })
+            .then(r => setUserData({ ...userData, projects: [...userData.projects, id], invites: userData.invites.filter(x => x != id) }));
     }
 
     const rejectProj = async (id) => {

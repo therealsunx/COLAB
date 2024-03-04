@@ -23,7 +23,7 @@ export default function MyAccount() {
             case 1: return <InvitationsPage userData={userData} setUserData={setUserData} />;
             case 0:
             default:
-                return <AccountInfo userData={userData} setUserData={setUserData} />
+                return <AccountInfo userData={userData} setUserData={setUserData} />;
         }
     }
 
