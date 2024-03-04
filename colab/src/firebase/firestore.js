@@ -126,6 +126,7 @@ export const createNewProject = async (data) => {
         members: data.members,
         skills: data.skills
     });
+
     await setLinks(ref.id, { ...defaultLinkData, invites: invs });
     invs.forEach(i => updateUser(i, { invites: arrayUnion(ref.id) }));
     return ref.id;
