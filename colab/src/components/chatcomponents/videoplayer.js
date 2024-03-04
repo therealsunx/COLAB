@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Grid, Typography, Paper, styled } from '@mui/material';
-import { SocketContext } from '../Context';
+import { SocketContext } from './Context';
 
 // Using styled-components for custom styles
 const StyledVideo = styled('video')(({ theme }) => ({

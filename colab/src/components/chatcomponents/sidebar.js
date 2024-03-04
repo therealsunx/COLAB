@@ -3,13 +3,11 @@ import { Button, TextField, Grid, Typography, Container, Paper } from '@mui/mate
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Assignment, Phone, PhoneDisabled } from '@mui/icons-material';
 
-import { SocketContext } from '../Context';
-
+import { SocketContext } from './Context';
 
 const ChatSideBar = ({ children }) => {
   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
   const [idToCall, setIdToCall] = useState('');
-
 
   return (
     <Container className={classes.container}>

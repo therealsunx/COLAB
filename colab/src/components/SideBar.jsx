@@ -7,6 +7,7 @@ import { pages } from "../misc/constants";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { AuthContext } from "./AuthContext";
+import { useProject } from "./ProjectContext";
 
 const SideBar = () => {
     const [expand, setExpand] = useState(true);

@@ -14,7 +14,6 @@ export default function MyAccount() {
     const [tab, setTab] = useState(0);
     const { userData, auth, setUserData } = useContext(AuthContext);
 
-
     if (!auth) return <Login />;
     if (!userData) return <p className="text-3xl text-center font-bold mt-[20%]">Loading...</p>;
 

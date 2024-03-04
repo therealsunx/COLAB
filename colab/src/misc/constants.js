@@ -1,4 +1,4 @@
-import { BookOpenTextIcon, ClipboardListIcon, Code2Icon, HomeIcon, LibrarySquareIcon, MessageCircleCodeIcon, PencilLineIcon, PlusCircleIcon, Rows3Icon, SettingsIcon } from "lucide-react";
+import { BookOpenTextIcon, ClipboardListIcon, Code2Icon, HomeIcon, MessageCircleCodeIcon, PencilLineIcon, PlusCircleIcon, Rows3Icon, SettingsIcon } from "lucide-react";
 
 export const pages = {
     Home: {
