@@ -42,7 +42,7 @@ export const setUser = async (id, userdata) => {
 export const getUser = async (id) => {
     const ref = doc(db, "users", id);
     const snap = await getDoc(ref);
-    if (snap.exists()) return snap.data();
+    if (snap.exists()) return { uid: id, ...snap.data() };
     else return null;
 }
 

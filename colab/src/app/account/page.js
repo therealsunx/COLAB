@@ -6,14 +6,16 @@ import { signOut } from "@/src/firebase/auth";
 import { setUser } from "@/src/firebase/firestore";
 import { buttons } from "@/src/misc/styles";
 import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
 export default function MyAccount() {
     const { userData, auth, setUserData } = useContext(AuthContext);
+    const router = useRouter();
 
-    const handleLogOut = e => {
+    const handleLogOut = async e => {
         e.preventDefault();
-        signOut();
+        await signOut().then(r => router.refresh());
     };
     if (!auth) return <Login />;
     if (!userData) return <p className="text-3xl text-center font-bold mt-[20%]">Loading...</p>;
@@ -34,7 +36,7 @@ export default function MyAccount() {
         <div className="w-full">
             <div className="flex justify-between items-center p-4 border-b-2">
                 <div className="flex items-center gap-4">
-                    <img src={userData.photoURL} alt="profile" className="size-20 rounded-full bg-blue-300" />
+                    {userData?.photourl ? <img src={userData.photourl} className="size-12 rounded-full" /> : <UserRound />}
                     <p className="">{userData?.name || ""}</p>
                 </div>
 
