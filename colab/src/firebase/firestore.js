@@ -20,6 +20,12 @@ export const defaultUserData = {
     invites: []
 };
 
+export const defaultTaskData = {
+    completed: "",
+    title: "",
+    description: "",
+}
+
 export const defaultProjectData = {
     name: "",
     intro: "",
@@ -153,15 +159,45 @@ export const getLinks = async (id) => {
     else return null;
 }
 
-export const setTasks = async (id, data) => {
-    await setDoc(doc(tasks, id), data);
-}
+export const setTasks = async (projectId, taskData) => {
+    const projectRef = doc(db, "links", projectId);
+    await updateDoc(projectRef, {
+        tasks: arrayUnion(taskData)
+    });
+    await getTasks(projectId);
+};
 
-export const getTasks = async (id) => {
-    const ref = doc(db, "tasks", id);
-    const snap = await getDoc(ref);
-    if (snap.exists()) return { id: id, ...snap.data() };
-    else return null;
-}
+export const getTasks = async (projectId) => {
+    const projectRef = doc(db, "links", projectId);
+    const projectSnap = await getDoc(projectRef);
+    if (projectSnap.exists()) {
+        const projectData = projectSnap.data();
+        return projectData.tasks || []; // Return tasks array or an empty array if not present
+    } else {
+        return []; // Return an empty array if the project does not exist
+    }
+};
 
 
+export const deleteTask = async (projectId, taskId) => {
+    const projectRef = doc(db, "links", projectId);
+    const projectSnap = await getDoc(projectRef);
+    if (projectSnap.exists()) {
+        const projectData = projectSnap.data();
+        const updatedTasks = projectData.tasks.filter(task => task.id !== taskId);
+        await updateDoc(projectRef, { tasks: updatedTasks });
+    }
+};
+
+
+export const updateTask = async (projectId, taskId, updatedData) => {
+    const projectRef = doc(db, "links", projectId);
+    const projectSnap = await getDoc(projectRef);
+    if (projectSnap.exists()) {
+        const projectData = projectSnap.data();
+        const updatedTasks = projectData.tasks.map(task => 
+            task.id === taskId ? { ...task, ...updatedData } : task
+        );
+        await updateDoc(projectRef, { tasks: updatedTasks });
+    }
+};

@@ -13,13 +13,13 @@ export default function canvas() {
     const { links, setLinks, project } = useProject();
     const [boardURL, setBoardURL] = useState('');
 
-    if (!boardURL && links?.boards) setBoardURL(links.boards[0].split(";")[1]);
+    if (!boardURL && links?.boards.length > 0) setBoardURL(links.boards[0].split(";")[1]);
 
     const getRandomBoard = async () => {
         if (!project) return;
         try {
             // const _f = `${process.env.LAN_HOST}:${process.env.BOARD_PORT}/random`;
-            const _f = "http://192.168.0.106:8080/random"
+            const _f = "http://192.168.0.103:8080/random"
             const res = await fetch(_f);
             if (!res.ok) throw new Error("Network response not OK");
             const result = await res.text();
