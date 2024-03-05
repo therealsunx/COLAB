@@ -30,9 +30,9 @@ export default function Project() {
             <div className="p-6 w-2/3 mt-12 text-center space-y-2">
                 <p className="font-bold text-3xl p-3">Team</p>
                 {project.members.map((t, _) => (
-                    <Link href="" className="py-4 px-6 flex justify-between rounded-xl form-div" key={_}>
+                    <Link href={`/account/${t.uid}`} className="py-4 px-6 flex justify-between rounded-xl form-div" key={_}>
                         <p className="font-bold">{t.name} </p>
-                        {t.id === project.manager && "Manager"}
+                        {t.uid === project.manager && "Manager"}
                     </Link>
                 ))}
             </div>

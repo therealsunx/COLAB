@@ -7,7 +7,6 @@ const projects = collection(db, "projects");
 const links = collection(db, "links");
 const tasks = collection(db, "tasks");
 
-
 export const defaultUserData = {
     name: "",
     email: "",
@@ -69,6 +68,13 @@ export const getAllProjectsOfUser = async (id) => {
     return await getMultipleProjects(user.projects);
 }
 
+export const getMultipleUsers = async (ids) => {
+    const prms = ids.map(async id => {
+        return await getUser(id);
+    })
+    return await Promise.all(prms);
+}
+
 export const getMultipleProjects = async (ids) => {
     const prms = ids.map(async pid => {
         return await getProjectData(pid);
@@ -82,7 +88,7 @@ export const getProjectData = async (id) => {
 
     const memberPromises = project.members.map(async m => {
         const userData = await getUser(m);
-        return { id: m, name: userData.name };
+        return { uid: m, name: userData.name, photourl:userData.photourl };
     });
     const members = await Promise.all(memberPromises);
     // const manager = members.find(x => x.id === project.manager);
@@ -108,7 +114,6 @@ export const getFeedProjects = async () => {
     snap.forEach(s => data.push({ ...s.data(), id: s.ref.id }));
     return data;
 }
-
 
 export const setProject = async (id, data) => {
     await setDoc(doc(projects, id), data);
