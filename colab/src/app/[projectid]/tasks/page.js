@@ -33,7 +33,7 @@ const TaskLists = ({ type, tasks }) => {
     await updateTask(task_id, { completed: true });
     // Refresh tasks list after marking as complete
     const updatedTasks = await getTasks();
-    setTasksState(updatedTasks);
+    setTasks(updatedTasks);
   };
 
   return (
