@@ -12,7 +12,7 @@ import {
 import { collection } from "firebase/firestore";
 
 
-const ManagerPanel = ({ projectId, auth }) => {
+const   ManagerPanel = ({ projectId, auth }) => {
   const [project, setProject] = useState(null);
   const [links, setLinks] = useState(null);
   const [formValues, setFormValues] = useState({
