@@ -25,7 +25,9 @@ const ContextProvider = ({ children }) => {
       .then((currentStream) => {
         setStream(currentStream);
 
-        myVideo.current.srcObject = currentStream;
+        if (myVideo.current) { // Check if video element exists
+          myVideo.current.srcObject = currentStream;
+        }
       });
 
     socket.on('me', (id) => setMe(id));
@@ -83,6 +85,7 @@ const ContextProvider = ({ children }) => {
 
   return (
     <SocketContext.Provider value={{
+      
       name,
       call,
       callAccepted,
@@ -97,6 +100,7 @@ const ContextProvider = ({ children }) => {
       answerCall,
     }}
     >
+      
       {children}
     </SocketContext.Provider>
   );

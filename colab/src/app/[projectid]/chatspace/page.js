@@ -1,31 +1,51 @@
 'use client';
 
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { Typography, AppBar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ChatSideBar from '@/src/components/chatcomponents/sidebar';
 import Notifications from '@/src/components/chatcomponents/notification';
 import VideoPlayer from '@/src/components/chatcomponents/videoplayer';
+import { db } from '../../../firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
+import { useProject } from "@/src/components/ProjectContext";
 
 
-// Using styled components for custom styles
+
+
 const Wrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  height:'100vh',
   alignItems: 'center',
   width: '100%',
 }));
 
+const SidebarWrapper = styled('div')(({ theme }) => ({
+  position: 'fixed',
+  bottom: 0,
+  
+}));
+
+
 const Chatspace = () => {
+  // const { project } = useProject();
+  const { project } = useProject();
+
+  // Fetch data when project changes (if needed)
+  const fetchData = async () => {
+    if (!project) return;
+    await listMembersAndManagers(project.id); // Call the function to fetch data
+  };
+  
   return (
     <Wrapper>
-      <AppBar className="appBar" position="static" color="inherit">
-        <Typography variant="h2" align="center">Video Chat</Typography>
-      </AppBar>
       <VideoPlayer />
+      <SidebarWrapper>
       <ChatSideBar>
         <Notifications />
       </ChatSideBar>
+      </SidebarWrapper>
     </Wrapper>
   );
 };
